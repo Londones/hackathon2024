@@ -24,7 +24,7 @@ services:
     ports:
       - 5173:5173
     environment:
-      NODE_ENV: development
+      NODE_ENV: docker
     command: npm run dev
     depends_on:
       - db
@@ -41,7 +41,7 @@ services:
     ports:
       - 3000:3000
     environment:
-      NODE_ENV: development
+      NODE_ENV: docker
       DATABASE_URL: postgres://postgres:password@db:5432/hackathon2024
       JWT_SECRET: secret
       JWT_REFRESH_SECRET: refresh_secret

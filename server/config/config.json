@@ -1,9 +1,0 @@
-{
-    "docker": {
-        "username": "postgres",
-        "password": "password",
-        "database": "hackathon2024",
-        "host": "db",
-        "dialect": "postgres"
-    }
-}

@@ -8,9 +8,11 @@ const AuthController = {
     try {
       const { firstName, name, email, username, password } = req.body;
       const emailExists = await User.findOne({ where: { email } });
-      if (emailExists) return res.status(400).json({ error: "Email already exists" });
+      if (emailExists)
+        return res.status(400).json({ error: "Email already exists" });
       const usernameExists = await User.findOne({ where: { username } });
-      if (usernameExists) return res.status(400).json({ error: "Username already exists" });
+      if (usernameExists)
+        return res.status(400).json({ error: "Username already exists" });
       const user = await User.create({
         firstName,
         name,
@@ -18,27 +20,45 @@ const AuthController = {
         username,
         password: bcrypt.hashSync(password, 10),
       });
-      const userWithoutPassword = { ...user.dataValues };
+      const userWithoutPassword = {
+        id: user.id,
+        firstName: user.firstName,
+        name: user.name,
+        email: user.email,
+        username: user.username,
+        role: user.role,
+      };
       res.status(201).json({ user: userWithoutPassword });
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      res.status(401).json({ error: error.message });
     }
   },
   async login(req, res) {
     try {
       const { email, password } = req.body;
       if (!email || !password)
-        return res.status(400).json({ error: "Username and password are required" });
+        return res
+          .status(400)
+          .json({ error: "Username and password are required" });
       const user = await User.findOne({ where: { email } });
-      const passwordsMatch = user && bcrypt.compareSync(password, user.password);
+      const passwordsMatch =
+        user && bcrypt.compareSync(password, user.password);
       console.log(passwordsMatch);
       if (user && bcrypt.compareSync(password, user.password)) {
-        const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, {
-          expiresIn: "1h",
-        });
-        const refreshToken = jwt.sign({ username: user.username }, process.env.JWT_REFRESH_SECRET, {
-          expiresIn: "1d",
-        });
+        const token = jwt.sign(
+          { username: user.username },
+          process.env.JWT_SECRET,
+          {
+            expiresIn: "1h",
+          }
+        );
+        const refreshToken = jwt.sign(
+          { username: user.username },
+          process.env.JWT_REFRESH_SECRET,
+          {
+            expiresIn: "1d",
+          }
+        );
         user.refreshToken = refreshToken;
         res.cookie("jwt", refreshToken, {
           httpOnly: true,

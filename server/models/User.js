@@ -1,6 +1,6 @@
 require("dotenv").config();
-const { DataTypes, Model } = require("sequelize");
-const sequelize = require("../config/sequelizeConfig");
+const { Sequelize, DataTypes, Model } = require("sequelize");
+const sequelize = new Sequelize(`${process.env.DATABASE_URL}`);
 
 class User extends Model {}
 
