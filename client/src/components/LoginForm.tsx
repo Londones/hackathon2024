@@ -32,13 +32,10 @@ export default function LoginForm() {
     });
 
     const onSubmit = async (values: z.infer<typeof LoginFormSchema>) => {
-        setEmail(values.email);
-        setPassword(values.password);
-
         try {
             const response = await axios.post(
                 `${(import.meta as any).env.VITE_SERVER_URL}/auth/login`,
-                JSON.stringify({ email, password }),
+                JSON.stringify({ email: values.email, password: values.password }),
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -46,6 +43,35 @@ export default function LoginForm() {
                     withCredentials: true,
                 }
             );
+
+            if (response.status === 200) {
+                toast.success("Success", {
+                    description: "You have successfully logged in",
+                    action: {
+                        label: "Dismiss",
+                        onClick: () => {
+                            toast.dismiss();
+                        },
+                    },
+                });
+            } else {
+                let toastMsg = "";
+                if (response.status === 400) {
+                    toastMsg = "Email or password incorrect";
+                } else if (response.status === 401) {
+                    toastMsg = "Unauthorized access";
+                }
+    
+                toast.error("Error", {
+                    description: toastMsg,
+                    action: {
+                        label: "Dismiss",
+                        onClick: () => {
+                            toast.dismiss();
+                        },
+                    },
+                });
+            }
 
             const accessToken = response?.data?.token;
             const userId = response?.data?.id;
@@ -75,26 +101,7 @@ export default function LoginForm() {
                 );
             }
         } catch (error: any) {
-            let toastMsg = "";
-            if (!error?.response) {
-                toastMsg = "Network error";
-            } else if (error.response?.status === 400) {
-                toastMsg = "Email or password incorrect";
-            } else if (error.response?.status === 401) {
-                toastMsg = "Unauthorized access";
-            } else {
-                toastMsg = "An error occurred";
-            }
-
-            toast.error("Error", {
-                description: toastMsg,
-                action: {
-                    label: "Dismiss",
-                    onClick: () => {
-                        toast.dismiss();
-                    },
-                },
-            });
+            console.error(error);
         }
     };
 
