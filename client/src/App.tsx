@@ -8,7 +8,7 @@ import HomeAdmin from "./pages/HomeAdmin";
 import AdminDashboard from "./pages/AdminDashboard";
 import PersistLogin from "./auth/PersistLogin";
 import RequireAuth from "./components/RequireAuth";
-import HomeUser from "./pages/HomeUser";
+import UserDashboard from "./pages/UserDashboard";
 import React from "react";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
@@ -23,14 +23,13 @@ function App() {
             <Router>
                 <Routes>
                     <Route path='/' element={<Layout />}>
-                        <Route index element={<Home />} />
                         <Route element={<PersistLogin />}>
                             <Route path='/admin/*' element={<RequireAuth allowedRoles={["admin"]} />}>
                                 <Route index element={<HomeAdmin />} />
                                 <Route path='dashboard' element={<AdminDashboard />} />
                             </Route>
                             <Route path='/user/*' element={<RequireAuth allowedRoles={["user"]} />}>
-                                <Route index element={<HomeUser />} />
+                                <Route index element={<UserDashboard />} />
                             </Route>
                         </Route>
                         <Route path='/login' element={<LoginForm />} />
