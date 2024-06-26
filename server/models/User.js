@@ -1,46 +1,50 @@
-require("dotenv").config();
-const { Sequelize, DataTypes, Model } = require("sequelize");
-const sequelize = new Sequelize(`${process.env.DATABASE_URL}`);
+const { Model } = require("sequelize");
 
-class User extends Model {}
+module.exports = function (sequelize, DataTypes) {
+    class User extends Model {}
 
-User.init(
-  {
-    firstName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    refreshToken: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    role: {
-      type: DataTypes.ENUM("admin", "user"),
-      defaultValue: "user",
-    },
-  },
-  {
-    sequelize,
-    modelName: "User",
-  }
-);
+    User.init(
+        {
+            firstName: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            name: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            email: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                unique: true,
+            },
+            password: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            refreshToken: {
+                type: DataTypes.STRING,
+                allowNull: true,
+            },
+            rappel: {
+                type: DataTypes.BOOLEAN,
+                defaultValue: false,
+                allowNull: true,
+            },
+            role: {
+                type: DataTypes.ENUM("admin", "user"),
+                defaultValue: "user",
+            },
+            phone: {
+                type: DataTypes.STRING,
+                allowNull: true,
+            },
+        },
+        {
+            sequelize,
+            modelName: "User",
+        }
+    );
 
-module.exports = User;
+    return User;
+};
