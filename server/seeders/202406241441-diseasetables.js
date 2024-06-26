@@ -1,4 +1,4 @@
-require("dotenv").config();
+ require("dotenv").config();
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {

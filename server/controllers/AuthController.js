@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const User = require("../models/User");
+const {User} = require("../models");
 require("dotenv").config();
 
 const AuthController = {
@@ -63,6 +63,7 @@ const AuthController = {
                 res.status(401).json({ error: "Invalid username or password" });
             }
         } catch (error) {
+            console.log("Error login :", error);
             res.status(400).json({ error: error.message });
         }
     },
