@@ -9,6 +9,8 @@ module.exports = {
         const diabeteData = [];
         const hypertensionData = [];
         const rappelData = [];
+        const currentMonth = new Date().getMonth();
+        const currentYear = new Date().getFullYear();
 
         rappelData.push({
             userID: 1,
@@ -28,6 +30,7 @@ module.exports = {
             updatedAt: new Date(),
         });
 
+        startDate.setDate(startDate.getDate() - 14);
         for (let day = 0; day < 14; day++) {
             const date = new Date(startDate);
             date.setDate(startDate.getDate() + day);
@@ -41,7 +44,14 @@ module.exports = {
                     createdAt: new Date(),
                     updatedAt: new Date(),
                 });
+                // Generate Rappel data (assuming daily reminders for simplicity)
+            });
+        }
 
+        for (let month = 0; month <= currentMonth; month++) {
+            const date = new Date(currentYear, month, 15);
+        
+            userIds.forEach((userId) => {
                 // Generate Hypertension data
                 hypertensionData.push({
                     userID: userId,
@@ -51,10 +61,8 @@ module.exports = {
                     createdAt: new Date(),
                     updatedAt: new Date(),
                 });
-
-                // Generate Rappel data (assuming daily reminders for simplicity)
             });
-        }
+        }    
 
         // Insert data into tables
         await queryInterface.bulkInsert("Diabetes", diabeteData, {});

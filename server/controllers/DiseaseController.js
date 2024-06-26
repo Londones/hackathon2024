@@ -118,6 +118,60 @@ const DiseaseController = {
             }
         }
     },
+
+    async getUserDiabeteDataLast10Days(req, res) {
+        try {
+            const { userId, diseaseName } = req.params;
+            const DiseaseModel = getDiseaseModel(diseaseName);
+
+            if (!DiseaseModel) {
+                return res.status(404).send({
+                    error: "Disease not found",
+                });
+            }
+
+            const data = await DiseaseModel.findAll({
+                where: { userID: userId },
+                order: [["date", "ASC"]],
+                limit: 10,
+            });
+
+            res.status(200).send(data);
+        } catch (error) {
+            res.status(500).send({
+                error: "An error occurred while fetching the disease data",
+            });
+        }
+    },
+
+    async getUserHyperTensionDataThisYear(req, res) {
+        try {
+            const { userId, diseaseName } = req.params;
+            const DiseaseModel = getDiseaseModel(diseaseName);
+
+            if (!DiseaseModel) {
+                return res.status(404).send({
+                    error: "Disease not found",
+                });
+            }
+
+            const currentYear = new Date().getFullYear();
+            const data = await DiseaseModel.findAll({
+                where: {
+                    userID: userId,
+                    date: {
+                        [Op.gte]: new Date(currentYear, 0, 1),
+                    },
+                },
+            });
+
+            res.status(200).send(data);
+        } catch (error) {
+            res.status(500).send({
+                error: "An error occurred while fetching the disease data",
+            });
+        }
+    },
 };
 
 // Placeholder for a function that maps disease names to their respective models
