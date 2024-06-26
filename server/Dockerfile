@@ -20,4 +20,6 @@ RUN chmod +x check-tables.sh
 
 RUN chmod +x check-seed.sh
 
+RUN echo "hello"
+
 CMD ["./check-tables.sh", "./check-seed.sh"]
