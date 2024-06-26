@@ -23,7 +23,6 @@ function App() {
             <Router>
                 <Routes>
                     <Route path='/' element={<Layout />}>
-                        <Route index element={<Home />} />
                         <Route element={<PersistLogin />}>
                             <Route path='/admin/*' element={<RequireAuth allowedRoles={["admin"]} />}>
                                 <Route index element={<HomeAdmin />} />
