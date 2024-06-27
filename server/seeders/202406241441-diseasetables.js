@@ -9,6 +9,7 @@ module.exports = {
         const diabeteData = [];
         const hypertensionData = [];
         const rappelData = [];
+        let isAjeun = true;
 
         rappelData.push({
             userID: 1,
@@ -38,6 +39,7 @@ module.exports = {
                     userID: userId,
                     date: date,
                     glycemie: Math.floor(Math.random() * (120 - 80 + 1) + 80), // Random glycemie between 80 and 120
+                    isAjeun : isAjeun,
                     createdAt: new Date(),
                     updatedAt: new Date(),
                 });
@@ -53,6 +55,9 @@ module.exports = {
                 });
 
                 // Generate Rappel data (assuming daily reminders for simplicity)
+                
+                //juste to alternante beetween isAjeun and !isAjeun
+                isAjeun = !isAjeun;
             });
         }
 

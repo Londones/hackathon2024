@@ -34,6 +34,11 @@ module.exports = function (sequelize, DataTypes) {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },
+
+            isAjeun: {
+                type: DataTypes.BOOLEAN,
+                allowNull: false,
+            },
         },
         {
             sequelize,
