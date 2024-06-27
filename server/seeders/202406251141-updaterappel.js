@@ -14,7 +14,7 @@ module.exports = {
 
         rappelData.push({
             userID: 1,
-            frequence: 31, // Monthly
+            frequence: 30, // Monthly
             heure: "08:00:00+02", // 8 AM
             maladie: "Hypertension", // Assuming reminders are for Diabete
             createdAt: new Date(),
