@@ -32,9 +32,10 @@ const RegisterFormSchema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters"),
   firstName: z.string(),
   name: z.string(),
-  age: z.number().min(0, "Age must be a positive number"),
-  sexe: z.enum(["Male", "Female", "Other"]),
-  weight: z.number().min(0, "Weight must be a positive number"),
+  age: z.union([z.number().min(0, "Age must be a positive number").optional(), z.string().optional()]),
+  sexe: z.enum(["Male", "Female", "Other"]).optional(),
+  weight: z.union([z.number().min(0, "Weight must be a positive number").optional(), z.string().optional()]),
+  height: z.union([z.number().min(0, "Height must be a positive number").optional(), z.string().optional()]),
 });
 
 export default function RegisterForm() {
@@ -176,9 +177,23 @@ export default function RegisterForm() {
                 <FormItem className="">
                   <FormLabel>Weight</FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="70" {...field} />
+                    <Input type="text" placeholder="70" {...field} />
                   </FormControl>
                   <FormDescription>Enter your weight in kg</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+             <FormField
+              control={form.control}
+              name="height"
+              render={({ field }) => (
+                <FormItem className="">
+                  <FormLabel>Height</FormLabel>
+                  <FormControl>
+                    <Input type="text" placeholder="170" {...field} />
+                  </FormControl>
+                  <FormDescription>Enter your height in cm</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

@@ -6,7 +6,7 @@ require("dotenv").config();
 const AuthController = {
     async register(req, res) {
         try {
-            const { firstName, name, email, password } = req.body;
+            const { firstName, name, email, password, age, height, weight, sexe } = req.body;
             const emailExists = await User.findOne({ where: { email } });
             if (emailExists) return res.status(400).json({ error: "Email already exists" });
             const user = await User.create({
@@ -15,6 +15,7 @@ const AuthController = {
                 email,
                 password: bcrypt.hashSync(password, 10),
                 age,
+                height,
                 weight,
                 sexe
             });
@@ -25,6 +26,7 @@ const AuthController = {
                 email: user.email,
                 role: user.role,
                 age: user.age,
+                height: user.height,
                 weight: user.weight,
                 sexe: user.sexe
             };
@@ -61,6 +63,7 @@ const AuthController = {
                     firstName: user.firstName,
                     role: user.role,
                     age: user.age,
+                    height: user.height,
                     weight: user.weight,
                     sexe: user.sexe
                 });
