@@ -48,14 +48,15 @@ module.exports = {
             });
         }
 
-        for (let month = 0; month <= currentMonth; month++) {
-            const date = new Date(currentYear, month, 15);
-        
+        const startDateHyperTension = new Date(currentYear, 0, 1);
+        const endDate = new Date();
+
+        for (let date = new Date(startDateHyperTension); date <= endDate; date.setDate(date.getDate() + 30)) {
             userIds.forEach((userId) => {
                 // Generate Hypertension data
                 hypertensionData.push({
                     userID: userId,
-                    date: date,
+                    date: new Date(date),
                     systolic: Math.floor(Math.random() * (140 - 120 + 1) + 120), // Random systolic between 120 and 140
                     diastolic: Math.floor(Math.random() * (90 - 80 + 1) + 80), // Random diastolic between 80 and 90
                     createdAt: new Date(),
