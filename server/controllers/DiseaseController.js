@@ -158,10 +158,9 @@ const DiseaseController = {
         try {
             const { userId } = req.params;
             const DiseaseModel = getDiseaseModel('diabete');
-    
-            const date = new Date();
-            date.setDate(date.getDate() - 10);
-    
+
+            const date = moment().subtract(10, 'days').toDate();
+
             const data = await DiseaseModel.findAll({
                 where: { 
                     userID: userId,
@@ -171,7 +170,7 @@ const DiseaseController = {
                 },
                 order: [["date", "ASC"]],
             });
-    
+
             res.status(200).send(data);
         } catch (error) {
             res.status(500).send({
@@ -185,12 +184,13 @@ const DiseaseController = {
             const { userId } = req.params;
             const DiseaseModel = getDiseaseModel('hypertension');
     
-            const currentYear = new Date().getFullYear();
+            const date = moment().startOf('year').toDate();
+    
             const data = await DiseaseModel.findAll({
                 where: {
                     userID: userId,
                     date: {
-                        [Op.gte]: new Date(currentYear, 0, 1),
+                        [Op.gte]: date,
                     },
                 },
             });
