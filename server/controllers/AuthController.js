@@ -30,6 +30,7 @@ const AuthController = {
             };
             res.status(201).json({ user: userWithoutPassword });
         } catch (error) {
+            console.log("Error signup : ", error );
             res.status(401).json({ error: error.message });
         }
     },

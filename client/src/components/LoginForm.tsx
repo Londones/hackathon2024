@@ -77,9 +77,9 @@ export default function LoginForm() {
             const userId = response?.data?.id;
             const name = response?.data?.name;
             const firstName = response?.data?.firstName;
-            const username = response?.data?.username;
             const role = response?.data?.role;
-            setAuth({ userId, name, firstName, email, username, accessToken, role });
+            const age = response?.data?.age;
+            setAuth({ userId, name, firstName, age, email, accessToken, role });
             setEmail("");
             setPassword("");
             navigateTo(from, { replace: true });
@@ -97,7 +97,7 @@ export default function LoginForm() {
             if (values.persist) {
                 localStorage.setItem(
                     "auth",
-                    JSON.stringify({ userId, name, firstName, email, username, accessToken, role })
+                    JSON.stringify({ userId, name, firstName, email, accessToken, role })
                 );
             }
         } catch (error: any) {

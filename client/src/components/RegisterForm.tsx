@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Label } from "@/components/ui/label";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -17,13 +17,24 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const RegisterFormSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
   password: z.string().min(8, "Password must be at least 8 characters"),
   firstName: z.string(),
   name: z.string(),
-  username: z.string(),
+  age: z.number().min(0, "Age must be a positive number"),
+  sexe: z.enum(["Male", "Female", "Other"]),
+  weight: z.number().min(0, "Weight must be a positive number"),
 });
 
 export default function RegisterForm() {
@@ -52,7 +63,7 @@ export default function RegisterForm() {
       if (!error?.response) {
         toastMsg = "Network error";
       } else if (error.response?.status === 400) {
-        toastMsg = "Email or username already exists";
+        toastMsg = "Email already exists";
       } else {
         toastMsg = "An error occurred";
       }
@@ -121,14 +132,53 @@ export default function RegisterForm() {
             />
             <FormField
               control={form.control}
-              name="username"
+              name="age"
               render={({ field }) => (
                 <FormItem className="">
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Age</FormLabel>
                   <FormControl>
-                    <Input placeholder="johndoe" {...field} />
+                    <Input type="number" placeholder="25" {...field} />
                   </FormControl>
-                  <FormDescription>Enter your username</FormDescription>
+                  <FormDescription>Enter your age</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="sexe"
+              render={({ field }) => (
+                <FormItem className="">
+                  <FormLabel>Sexe</FormLabel>
+                  <FormControl>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select your sexe" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectItem value="Male">Male</SelectItem>
+                          <SelectItem value="Female">Female</SelectItem>
+                          <SelectItem value="Other">Other</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormDescription>Select your sexe</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="weight"
+              render={({ field }) => (
+                <FormItem className="">
+                  <FormLabel>Weight</FormLabel>
+                  <FormControl>
+                    <Input type="number" placeholder="70" {...field} />
+                  </FormControl>
+                  <FormDescription>Enter your weight in kg</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
