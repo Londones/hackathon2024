@@ -39,6 +39,24 @@ module.exports = function (sequelize, DataTypes) {
                 type: DataTypes.STRING,
                 allowNull: true,
             },
+            age: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                validate: {
+                    min: 0,
+                },
+            },
+            sexe: {
+                type: DataTypes.ENUM("Male", "Female", "Other"),
+                allowNull: false,
+            },
+            weight: {
+                type: DataTypes.FLOAT,
+                allowNull: false,
+                validate: {
+                    min: 0,
+                },
+            },
         },
         {
             sequelize,
