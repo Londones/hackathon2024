@@ -73,7 +73,13 @@ const SMSController = {
             const diseaseAndMesureFromMessage = await analyseMedicale(lastMessage.message);
             console.log("Medical analysis for message result : ", diseaseAndMesureFromMessage);
 
-            const phoneNumbeWithPlus = "+"+lastMessage.destination;
+            if(lastMessage.sender == "+38601")
+            {
+                console.log("---------SMS Factor message, IGNORE -----");
+                return;
+            }
+
+            const phoneNumbeWithPlus = "+"+lastMessage.sender;
             console.log("Message issued by : ", phoneNumbeWithPlus);
             const user = await User.findOne({
                 where: { phone: phoneNumbeWithPlus },
@@ -88,7 +94,6 @@ const SMSController = {
             };
             //console.log("User in DB : ",user);
 
-            //generate appropriate prompt (depending on the on the sms)
         
             const messagesInitial = genererPrompt(diseaseAndMesureFromMessage , user);
             console.log("message initial : ", messagesInitial);
