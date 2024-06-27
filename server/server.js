@@ -19,6 +19,7 @@ const AuthRoutes = require("./routes/AuthRoutes");
 const RefreshRoutes = require("./routes/RefreshRoutes");
 const DiseaseRoutes = require("./routes/DiseaseRoutes");
 const RappelRoutes = require("./routes/RappelRoutes");
+const AlertRoutes = require("./routes/AlertRoutes");
 
 const userToNotifyFunction = require("./controllers/DiseaseController");
 
@@ -49,6 +50,7 @@ app.use("/auth", AuthRoutes);
 app.use("/refresh", RefreshRoutes);
 app.use("/disease", DiseaseRoutes);
 app.use("/rappel", RappelRoutes);
+app.use("/alert", AlertRoutes);
 
 const server = http.createServer(app);
 
