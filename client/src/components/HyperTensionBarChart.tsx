@@ -10,7 +10,7 @@ const HypertensionBarChart = () => {
 
     const fetchHypertensionData = async () => {
         try {
-            const response = await axios.get(`${(import.meta as any).env.VITE_SERVER_URL}/disease/${auth.userId}/hypertension`, {
+            const response = await axios.get(`${(import.meta as any).env.VITE_SERVER_URL}/disease/${auth.userId}/Hypertension`, {
                 headers: { Authorization: `Bearer ${auth.accessToken}`,
                 "Content-Type": "application/json" },
             });
@@ -23,6 +23,8 @@ const HypertensionBarChart = () => {
                     date: dateString,
                 };
             });
+
+            console.log("chart", data);
 
             setHypertensionData(data);
         } catch (error) {

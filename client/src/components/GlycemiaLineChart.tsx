@@ -9,7 +9,7 @@ const GlycemiaLineChart = () => {
 
     const fetchGlycemiaData = async () => {
         try {
-            const response = await axios.get(`${(import.meta as any).env.VITE_SERVER_URL}/disease/${auth.userId}/diabete`,{
+            const response = await axios.get(`${(import.meta as any).env.VITE_SERVER_URL}/disease/${auth.userId}/Diabete`,{
                 headers: { Authorization: `Bearer ${auth.accessToken}`,
                 "Content-Type": "application/json"},
             });

@@ -55,7 +55,6 @@ const ReminderCalendar = () => {
     
             const reminders = generateReminders(response.data);
             setReminder(reminders);
-            console.log(reminders);
         } catch (error) {
             console.error(error);
         }

@@ -3,11 +3,11 @@ import AlertCard from './AlertCard';
 import axios from 'axios';
 import useAuth from '@/hooks/useAuth';
 
-const DiabeteAlertCard = () => {
+const HyperTensionAlertCard = () => {
     const [hypertensionAlerts, setHypertensionAlerts] = useState([])
     const { auth } = useAuth();
 
-    const fetchDiabeteAlerts = async () => {
+    const fetchHyperTensionAlerts = async () => {
         try {
             const response = await axios.get(`${(import.meta as any).env.VITE_SERVER_URL}/alert/${auth.userId}/Hypertension`, {
                 headers: { Authorization: `Bearer ${auth.accessToken}`,
@@ -23,6 +23,7 @@ const DiabeteAlertCard = () => {
                 };
             });
 
+            console.log(data);
             setHypertensionAlerts(data);
         } catch (error) {
             console.error(error);
@@ -30,7 +31,7 @@ const DiabeteAlertCard = () => {
     }
 
     useEffect(() => {
-        fetchDiabeteAlerts();
+        fetchHyperTensionAlerts();
     }, []);
 
     return (
@@ -38,4 +39,4 @@ const DiabeteAlertCard = () => {
     );
 }
 
-export default DiabeteAlertCard;
+export default HyperTensionAlertCard;
