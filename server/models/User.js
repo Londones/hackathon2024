@@ -39,6 +39,19 @@ module.exports = function (sequelize, DataTypes) {
                 type: DataTypes.STRING,
                 allowNull: true,
             },
+            weight: {
+                type: DataTypes.INTEGER,  
+                allowNull: true,       
+            },
+            height: {
+                type: DataTypes.INTEGER,  
+                allowNull: true,
+                
+            },
+            age: {
+                type: DataTypes.INTEGER,  
+                allowNull: true,       
+            },
         },
         {
             sequelize,

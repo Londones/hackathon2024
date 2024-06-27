@@ -28,6 +28,9 @@ module.exports = {
                     createdAt: new Date(),
                     updatedAt: new Date(),
                     phone: process.env.PHONE,
+                    age : Math.floor(Math.random() * (70 - 25 + 1) + 25), // age beetwen 25 and 70
+                    height : Math.floor(Math.random() * (190 - 150 + 1) + 150), // height beetwen 150 and 190 cm,
+                    weight : Math.floor(Math.random() * (90 - 60 + 1) + 60), // weight beetwen 60 and 90 kg,
                     rappel: true,
                 },
                 {
@@ -39,6 +42,9 @@ module.exports = {
                     createdAt: new Date(),
                     updatedAt: new Date(),
                     phone: process.env.PHONE,
+                    age : Math.floor(Math.random() * (70 - 25 + 1) + 25), // age beetwen 25 and 70
+                    height : Math.floor(Math.random() * (190 - 150 + 1) + 150), // height beetwen 150 and 190 cm,
+                    weight : Math.floor(Math.random() * (90 - 60 + 1) + 60), // weight beetwen 60 and 90 kg,
                     rappel: true,
                 },
                 {
@@ -50,6 +56,9 @@ module.exports = {
                     createdAt: new Date(),
                     updatedAt: new Date(),
                     phone: process.env.PHONE,
+                    age : Math.floor(Math.random() * (70 - 25 + 1) + 25), // age beetwen 25 and 70
+                    height : Math.floor(Math.random() * (190 - 150 + 1) + 150), // height beetwen 150 and 190 cm,
+                    weight : Math.floor(Math.random() * (90 - 60 + 1) + 60), // weight beetwen 60 and 90 kg,
                     rappel: true,
                 },
             ],

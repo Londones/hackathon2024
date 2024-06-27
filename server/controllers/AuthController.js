@@ -8,14 +8,13 @@ const AuthController = {
         try {
             const { firstName, name, email, username, password } = req.body;
             const emailExists = await User.findOne({ where: { email } });
-            if (emailExists) return res.status(400).json({ error: "Email already exists" });
-            const usernameExists = await User.findOne({ where: { username } });
-            if (usernameExists) return res.status(400).json({ error: "Username already exists" });
+            // if (emailExists) return res.status(400).json({ error: "Email already exists" });
+            // const usernameExists = await User.findOne({ where: { username } });
+            // if (usernameExists) return res.status(400).json({ error: "Username already exists" });
             const user = await User.create({
                 firstName,
                 name,
                 email,
-                username,
                 password: bcrypt.hashSync(password, 10),
             });
             const userWithoutPassword = {
@@ -23,11 +22,11 @@ const AuthController = {
                 firstName: user.firstName,
                 name: user.name,
                 email: user.email,
-                username: user.username,
                 role: user.role,
             };
             res.status(201).json({ user: userWithoutPassword });
         } catch (error) {
+            console.log("Error signup : ", error );
             res.status(401).json({ error: error.message });
         }
     },

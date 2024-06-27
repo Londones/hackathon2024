@@ -34,10 +34,16 @@ const userToNotifyFunction = require("./controllers/DiseaseController");
 });*/
 
 // Schedule the SMS processing job to run every minutes
-/*schedule.scheduleJob("* * * * *", async () => {
-    console.log("Processing SMS messages...");
-    await SMSController.processSMSMessages();
-});*/
+// schedule.scheduleJob("* * * * *", async () => {
+//     console.log("Processing SMS messages...");
+//     await SMSController.processSMSMessages();
+// });
+
+//Schedule the Last SMS processing 
+// schedule.scheduleJob('*/10 * * * * *', async () => {
+//     console.log("Processing SMS messages...");
+//     await SMSController.processLastSMS();
+// });
 
 app.use("/auth", AuthRoutes);
 app.use("/refresh", RefreshRoutes);
