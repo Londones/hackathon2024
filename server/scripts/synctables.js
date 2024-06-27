@@ -9,12 +9,14 @@ const defineUser = require("../models/User");
 const defineHypertension = require("../models/Hypertension");
 const defineDiabete = require("../models/Diabete");
 const defineRappel = require("../models/Rappel");
+const defineMessage = require("../models/Message");
 
 // Instantiate models by calling the definition functions
 const User = defineUser(sequelize, DataTypes);
 const Hypertension = defineHypertension(sequelize, DataTypes);
 const Diabete = defineDiabete(sequelize, DataTypes);
 const Rappel = defineRappel(sequelize, DataTypes);
+const Message = defineMessage(sequelize, DataTypes);
 
 async function syncTables() {
     try {
@@ -25,6 +27,7 @@ async function syncTables() {
         await User.sync({ force: true });
         await Hypertension.sync({ force: true });
         await Diabete.sync({ force: true });
+        await Message.sync({ force: true });
         await Rappel.sync({ force: true });
 
         console.log("All models were synchronized successfully.");

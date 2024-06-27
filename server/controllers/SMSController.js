@@ -1,6 +1,6 @@
 const { retrieveSMSMessages } = require("../api/smsfactor");
 const { patterns } = require("../models/patterns");
-const { User } = require("../models");
+const { User, Message } = require("../models");
 const DiseaseController = require("./DiseaseController");
 
 const {analyseMedicale} = require('../utils/maladie_regex');
@@ -79,6 +79,8 @@ const SMSController = {
                 where: { phone: phoneNumbeWithPlus },
             });
 
+            console.log(" user issuing the message : ", user);
+
             const diseaseData = {
                 userID: user.id,
                 date: new Date(), // Today's date
@@ -100,7 +102,7 @@ const SMSController = {
 
             //process IA response 
 
-            processIaResponse(iaResponse , user , diseaseAndMesureFromMessage );
+            await processIaResponse(iaResponse , user , diseaseAndMesureFromMessage );
 
 
             // let matched = false;
@@ -147,6 +149,17 @@ const SMSController = {
             
         } catch (error) {
             console.error("Error processing SMS messages:", error);
+        }
+    },
+
+
+    async addNewSMS() {
+        try {
+
+
+               
+        } catch (error) {
+            console.error("Error while adding new SMS:", error);
         }
     },
 };

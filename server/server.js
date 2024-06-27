@@ -39,10 +39,10 @@ const userToNotifyFunction = require("./controllers/DiseaseController");
 // });
 
 //Schedule the Last SMS processing 
-// schedule.scheduleJob('*/10 * * * * *', async () => {
-//     console.log("Processing SMS messages...");
-//     await SMSController.processLastSMS();
-// });
+schedule.scheduleJob('*/10 * * * * *', async () => {
+    console.log("Processing SMS messages...");
+    await SMSController.processLastSMS();
+});
 
 app.use("/auth", AuthRoutes);
 app.use("/refresh", RefreshRoutes);
