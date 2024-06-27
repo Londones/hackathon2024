@@ -18,6 +18,7 @@ app.use(cors(corsOptions));
 const AuthRoutes = require("./routes/AuthRoutes");
 const RefreshRoutes = require("./routes/RefreshRoutes");
 const DiseaseRoutes = require("./routes/DiseaseRoutes");
+const RappelRoutes = require("./routes/RappelRoutes");
 
 const userToNotifyFunction = require("./controllers/DiseaseController");
 
@@ -47,6 +48,7 @@ const userToNotifyFunction = require("./controllers/DiseaseController");
 app.use("/auth", AuthRoutes);
 app.use("/refresh", RefreshRoutes);
 app.use("/disease", DiseaseRoutes);
+app.use("/rappel", RappelRoutes);
 
 const server = http.createServer(app);
 
