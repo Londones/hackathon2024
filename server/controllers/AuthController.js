@@ -6,16 +6,18 @@ require("dotenv").config();
 const AuthController = {
     async register(req, res) {
         try {
-            const { firstName, name, email, username, password } = req.body;
+            const { firstName, name, email, password, age, height, weight, sexe } = req.body;
             const emailExists = await User.findOne({ where: { email } });
-            // if (emailExists) return res.status(400).json({ error: "Email already exists" });
-            // const usernameExists = await User.findOne({ where: { username } });
-            // if (usernameExists) return res.status(400).json({ error: "Username already exists" });
+            if (emailExists) return res.status(400).json({ error: "Email already exists" });
             const user = await User.create({
                 firstName,
                 name,
                 email,
                 password: bcrypt.hashSync(password, 10),
+                age,
+                height,
+                weight,
+                sexe
             });
             const userWithoutPassword = {
                 id: user.id,
@@ -23,6 +25,10 @@ const AuthController = {
                 name: user.name,
                 email: user.email,
                 role: user.role,
+                age: user.age,
+                height: user.height,
+                weight: user.weight,
+                sexe: user.sexe
             };
             res.status(201).json({ user: userWithoutPassword });
         } catch (error) {
@@ -33,7 +39,7 @@ const AuthController = {
     async login(req, res) {
         try {
             const { email, password } = req.body;
-            if (!email || !password) return res.status(400).json({ error: "Username and password are required" });
+            if (!email || !password) return res.status(400).json({ error: "email and password are required" });
             const user = await User.findOne({ where: { email } });
             if (user && bcrypt.compareSync(password, user.password)) {
                 const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
@@ -52,14 +58,17 @@ const AuthController = {
                 await user.save();
                 res.status(200).json({
                     token,
-                    username: user.username,
                     id: user.id,
                     name: user.name,
                     firstName: user.firstName,
                     role: user.role,
+                    age: user.age,
+                    height: user.height,
+                    weight: user.weight,
+                    sexe: user.sexe
                 });
             } else {
-                res.status(401).json({ error: "Invalid username or password" });
+                res.status(401).json({ error: "Invalid email or password" });
             }
         } catch (error) {
             console.log("Error login :", error);
