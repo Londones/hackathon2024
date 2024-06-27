@@ -41,7 +41,7 @@ module.exports = function (sequelize, DataTypes) {
         },
         {
             sequelize,
-            modelName: "Alerts",
+            modelName: "Alert",
         }
     );
 
