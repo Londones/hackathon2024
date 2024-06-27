@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
-const {Message, Alerts} = require('../models');
+const {Message, Alert} = require('../models');
 
 const {sendMessageToUser} = require('../utils/sms_manager');
 const {getGlucoseThresholds,generateHighGlucoseLevelWarningMessage} = require('../utils/diabete_utils');
@@ -19,9 +19,9 @@ async function processIaResponse(iaResponse , userProfile , diseaseAndMesureFrom
                 weight : userProfile.weight,
                 aJeun : diseaseAndMesureFromMessage.aJeun
             }
-            const warningMessage = generateHighGlucoseLevelWarningMessage(userInfos , diseaseAndMesureFromMessage.valeur);
+            const warningMessage = generateHighGlucoseLevelWarningMessage(userInfos , diseaseAndMesureFromMessage.valeur/100);
 
-            const finalContent =  warningMessage + "\n\n" + iaResponse;
+            const finalContent = iaResponse + "\n\n" + warningMessage;
             sendMessageToUser(userProfile.phone, );
 
             //create a new message and link it to the sender
@@ -39,7 +39,7 @@ async function processIaResponse(iaResponse , userProfile , diseaseAndMesureFrom
             if(warningMessage.length != 0)
                 {
                     console.log("send sms to user with id", userProfile);
-                    const newAlert = await Alerts.create({
+                    const newAlert = await Alert.create({
                         userID: userProfile.id,
                         date: new Date(),
                         message: warningMessage,
