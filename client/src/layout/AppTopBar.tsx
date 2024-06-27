@@ -15,7 +15,7 @@ function ResponsiveAppBar() {
     const navigate = useNavigate();
 
     return (
-        <header className='flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6'>
+        <header className='flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6 pt-4 pb-4 pl-4 pr-4'>
             {auth.role ? (
                 auth.role === "admin" ? (
                     <AdminTopBar />
