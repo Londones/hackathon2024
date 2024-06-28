@@ -191,7 +191,7 @@ const EditReminderDialog = ({ onClose, onUpdate, initialValues, mode }) => {
                         name="frequence"
                         render={({ field }) => (
                             <FormItem>
-                            <FormLabel>Frequence</FormLabel>
+                            <FormLabel>Fréquence</FormLabel>
                             <FormControl>
                                 <Input type="number" placeholder="1" {...field} />
                             </FormControl>
@@ -222,7 +222,7 @@ const EditReminderDialog = ({ onClose, onUpdate, initialValues, mode }) => {
                         />
                         
                         <DialogFooter>
-                            <Button type="submit">Submit</Button>
+                            <Button type="submit">Enregistrer</Button>
                             <Button type="button" variant="secondary" onClick={onClose}>Annuler</Button>
                         </DialogFooter>
                     </form>

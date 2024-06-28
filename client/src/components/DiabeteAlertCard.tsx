@@ -21,6 +21,7 @@ const DiabeteAlertCard = () => {
                 const dateString = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(
                     date.getDate()
                 ).padStart(2, "0")}`;
+                item.maladie === "Diabete" ? (item.maladie = "Diabète") : null;
                 return {
                     ...item,
                     date: dateString,
