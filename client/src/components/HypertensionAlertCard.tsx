@@ -27,7 +27,6 @@ const HyperTensionAlertCard = () => {
                 };
             });
 
-            console.log(data);
             setHypertensionAlerts(data);
         } catch (error) {
             console.error(error);

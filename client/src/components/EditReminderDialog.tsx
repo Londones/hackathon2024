@@ -74,7 +74,6 @@ const EditReminderDialog = ({ onClose, onUpdate, initialValues, mode }) => {
         try {
             let response;
             if (mode === 'add') {
-                console.log('add reminder');
                 response = await axios.post(`${(import.meta as any).env.VITE_SERVER_URL}/rappel/${auth.userId}`, formData, {
                     headers: { Authorization: `Bearer ${auth.accessToken}`, "Content-Type": "application/json" },
                 });

@@ -24,8 +24,6 @@ const HypertensionBarChart = () => {
                 };
             });
 
-            console.log("chart", data);
-
             setHypertensionData(data);
         } catch (error) {
             console.error(error);

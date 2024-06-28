@@ -23,8 +23,6 @@ const GlycemiaLineChart = () => {
                 };
             });
 
-            console.log("chart", data);
-
             setGlycemiaData(data);
         } catch (error) {
             console.error(error);

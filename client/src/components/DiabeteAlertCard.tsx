@@ -16,8 +16,6 @@ const DiabeteAlertCard = () => {
                 }
             );
 
-            console.log(response.data);
-
             const data = response.data.map((item) => {
                 const date = new Date(item.date);
                 const dateString = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(
