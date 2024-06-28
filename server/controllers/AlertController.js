@@ -9,7 +9,7 @@ const AlertController = {
             let date;
     
             if (diseaseName.toLowerCase() === 'diabete') {
-                date = moment().subtract(10, 'days').toDate();
+                date = moment().subtract(10, 'days').startOf('day').toDate();
             } else if (diseaseName.toLowerCase() === 'hypertension') {
                 date = moment().subtract(6, 'months').toDate();
             }

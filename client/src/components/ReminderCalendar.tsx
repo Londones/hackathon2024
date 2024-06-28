@@ -45,6 +45,7 @@ const ReminderCalendar = () => {
     const [showDialog, setShowDialog] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [showEditDialog, setShowEditDialog] = useState(false);
+    const [editMode, setEditMode] = useState('add');
     const { auth } = useAuth();
 
     const handleEventClick = (event) => {
@@ -57,6 +58,12 @@ const ReminderCalendar = () => {
     };
 
     const handleEditClick = () => {
+        setEditMode('edit');
+        setShowEditDialog(true);
+    };
+
+    const handleAddClick = () => {
+        setEditMode('add');
         setShowEditDialog(true);
     };
 
@@ -105,7 +112,10 @@ const ReminderCalendar = () => {
                 toolbar={true}
             />
 
-            <Button onClick={handleEditClick}>Modifier les rappels</Button>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px' }}>
+                <Button onClick={handleEditClick}>Modifier un rappel</Button>
+                <Button onClick={handleAddClick}>Ajouter un rappel</Button>
+            </div>
 
             {showDialog && selectedEvent && (
                 <Dialog open={showDialog}>
@@ -123,7 +133,11 @@ const ReminderCalendar = () => {
                 </Dialog>
             )}
 
-            {showEditDialog && <EditReminderDialog onClose={() => setShowEditDialog(false)} onUpdate={fetchUserReminders} />}
+            {showEditDialog && <EditReminderDialog
+                mode={editMode}
+                initialValues={editMode === 'edit' ? selectedEvent : null}
+                onClose={() => setShowEditDialog(false)}
+                onUpdate={fetchUserReminders} />}
         </div>
     );
 };

@@ -31,7 +31,7 @@ const formSchema = z.object({
     heure: z.string(),
 });
 
-const EditReminderDialog = ({ onClose, onUpdate }) => {
+const EditReminderDialog = ({ onClose, onUpdate, initialValues, mode }) => {
     const [reminders, setReminders] = useState([]);
     const { auth } = useAuth();
     const [heure, setHeure] = useState('');
@@ -40,8 +40,8 @@ const EditReminderDialog = ({ onClose, onUpdate }) => {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: {
-            maladie: '',
+        defaultValues: initialValues || {
+            maladie: mode === 'add' ? ['Diabete', 'Hypertension'] : '',
             frequence: null,
             heure: '',
         },
@@ -72,11 +72,19 @@ const EditReminderDialog = ({ onClose, onUpdate }) => {
         };
     
         try {
-            const response = await axios.put(`${(import.meta as any).env.VITE_SERVER_URL}/rappel/${auth.userId}`, formData, {
-                headers: { Authorization: `Bearer ${auth.accessToken}`, "Content-Type": "application/json" },
-            });
+            let response;
+            if (mode === 'add') {
+                console.log('add reminder');
+                response = await axios.post(`${(import.meta as any).env.VITE_SERVER_URL}/rappel/${auth.userId}`, formData, {
+                    headers: { Authorization: `Bearer ${auth.accessToken}`, "Content-Type": "application/json" },
+                });
+            } else {
+                response = await axios.put(`${(import.meta as any).env.VITE_SERVER_URL}/rappel/${auth.userId}`, formData, {
+                    headers: { Authorization: `Bearer ${auth.accessToken}`, "Content-Type": "application/json" },
+                });
+            }
     
-            if (response.status === 200) {
+            if (response.status === 200 || response.status === 201) {
                 toast.success("Succès", {
                     description: "Rappel modifié avec succès",
                     action: {
@@ -88,8 +96,27 @@ const EditReminderDialog = ({ onClose, onUpdate }) => {
                 });
                 onClose();
                 onUpdate();
+            } else if (response.status === 400) {
+                toast.error("Erreur", {
+                    description: "Rappel déjà existant pour cette maladie",
+                    action: {
+                        label: "Fermer",
+                        onClick: () => {
+                            toast.dismiss();
+                        },
+                    },
+                });
+                onClose();
             } else {
-                console.log('Failed to update reminder');
+                toast.error("Erreur", {
+                    description: "Erreur lors de la modification du rappel",
+                    action: {
+                        label: "Fermer",
+                        onClick: () => {
+                            toast.dismiss();
+                        },
+                    },
+                });
             }
         } catch (error) {
             console.error(error);
@@ -97,14 +124,16 @@ const EditReminderDialog = ({ onClose, onUpdate }) => {
     };
 
     const handleMaladieChange = (value) => {
-        const selectedReminder = reminders.find(reminder => reminder.maladie === value);
-        if (selectedReminder) {
-            form.setValue('frequence', selectedReminder.frequence);
-            
-            const [heure, minute, seconde] = selectedReminder.heure.split(':');
-            setHeure(heure);
-            setMinute(minute);
-            setSeconde(seconde);
+        if (mode === 'edit') {
+            const selectedReminder = reminders.find(reminder => reminder.maladie === value);
+            if (selectedReminder) {
+                form.setValue('frequence', selectedReminder.frequence);
+                
+                const [heure, minute, seconde] = selectedReminder.heure.split(':');
+                setHeure(heure);
+                setMinute(minute);
+                setSeconde(seconde);
+            }
         }
     };
 
@@ -119,7 +148,7 @@ const EditReminderDialog = ({ onClose, onUpdate }) => {
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Modifier les rappels</DialogTitle>
+                    <DialogTitle>Gestion des rappels</DialogTitle>
                 </DialogHeader>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -136,11 +165,22 @@ const EditReminderDialog = ({ onClose, onUpdate }) => {
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                        {reminders.map((reminder, index) => (
-                                            <SelectItem key={index} value={reminder.maladie}>
-                                                {reminder.maladie}
-                                            </SelectItem>
-                                        ))}
+                                        {mode === 'add' ? (
+                                            <>
+                                                <SelectItem value="Diabete">
+                                                    Diabete
+                                                </SelectItem>
+                                                <SelectItem value="Hypertension">
+                                                    Hypertension
+                                                </SelectItem>
+                                            </>
+                                        ) : (
+                                            reminders.map((reminder, index) => (
+                                                <SelectItem key={index} value={reminder.maladie}>
+                                                    {reminder.maladie}
+                                                </SelectItem>
+                                            ))
+                                        )}
                                     </SelectContent>
                                 </Select>
                                 <FormMessage />
