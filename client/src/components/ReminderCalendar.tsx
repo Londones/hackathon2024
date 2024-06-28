@@ -3,8 +3,10 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Dialog, DialogHeader, DialogTrigger, DialogContent, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { Button } from "@/components/ui/button"
 import axios from 'axios';
 import useAuth from '@/hooks/useAuth';
+import EditReminderDialog from './EditReminderDialog';
 
 const localizer = momentLocalizer(moment);
 
@@ -42,6 +44,7 @@ const ReminderCalendar = () => {
     const [reminder, setReminder] = useState([]);
     const [showDialog, setShowDialog] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState(null);
+    const [showEditDialog, setShowEditDialog] = useState(false);
     const { auth } = useAuth();
 
     const handleEventClick = (event) => {
@@ -51,6 +54,10 @@ const ReminderCalendar = () => {
 
     const handleCloseDialog = () => {
         setShowDialog(false);
+    };
+
+    const handleEditClick = () => {
+        setShowEditDialog(true);
     };
 
     const fetchUserReminders = async () => {
@@ -98,6 +105,8 @@ const ReminderCalendar = () => {
                 toolbar={true}
             />
 
+            <Button onClick={handleEditClick}>Modifier les rappels</Button>
+
             {showDialog && selectedEvent && (
                 <Dialog open={showDialog}>
                     <DialogTrigger asChild>
@@ -113,6 +122,8 @@ const ReminderCalendar = () => {
                     </DialogContent>
                 </Dialog>
             )}
+
+            {showEditDialog && <EditReminderDialog onClose={() => setShowEditDialog(false)} onUpdate={fetchUserReminders} />}
         </div>
     );
 };

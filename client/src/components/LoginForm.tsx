@@ -45,10 +45,10 @@ export default function LoginForm() {
             );
 
             if (response.status === 200) {
-                toast.success("Success", {
-                    description: "You have successfully logged in",
+                toast.success("Succès", {
+                    description: "Vous êtes connecté",
                     action: {
-                        label: "Dismiss",
+                        label: "Fermer",
                         onClick: () => {
                             toast.dismiss();
                         },
