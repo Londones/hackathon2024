@@ -95,18 +95,8 @@ const EditReminderDialog = ({ onClose, onUpdate, initialValues, mode }) => {
                 });
                 onClose();
                 onUpdate();
-            } else if (response.status === 400) {
-                toast.error("Erreur", {
-                    description: "Rappel déjà existant pour cette maladie",
-                    action: {
-                        label: "Fermer",
-                        onClick: () => {
-                            toast.dismiss();
-                        },
-                    },
-                });
-                onClose();
-            } else {
+            } 
+            else {
                 toast.error("Erreur", {
                     description: "Erreur lors de la modification du rappel",
                     action: {
@@ -118,7 +108,17 @@ const EditReminderDialog = ({ onClose, onUpdate, initialValues, mode }) => {
                 });
             }
         } catch (error) {
-            console.error(error);
+            if (error.response && error.response.status === 400) {
+                toast.error("Erreur", {
+                    description: "Rappel déjà existant pour cette maladie",
+                    action: {
+                        label: "Fermer",
+                        onClick: () => {
+                            toast.dismiss();
+                        },
+                    },
+                });
+            }
         }
     };
 
@@ -191,7 +191,7 @@ const EditReminderDialog = ({ onClose, onUpdate, initialValues, mode }) => {
                         name="frequence"
                         render={({ field }) => (
                             <FormItem>
-                            <FormLabel>Frequence</FormLabel>
+                            <FormLabel>Fréquence</FormLabel>
                             <FormControl>
                                 <Input type="number" placeholder="1" {...field} />
                             </FormControl>
@@ -222,7 +222,7 @@ const EditReminderDialog = ({ onClose, onUpdate, initialValues, mode }) => {
                         />
                         
                         <DialogFooter>
-                            <Button type="submit">Submit</Button>
+                            <Button type="submit">Enregistrer</Button>
                             <Button type="button" variant="secondary" onClick={onClose}>Annuler</Button>
                         </DialogFooter>
                     </form>
