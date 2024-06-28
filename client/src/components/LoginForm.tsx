@@ -61,7 +61,7 @@ export default function LoginForm() {
                 } else if (response.status === 401) {
                     toastMsg = "Unauthorized access";
                 }
-    
+
                 toast.error("Error", {
                     description: toastMsg,
                     action: {
@@ -77,9 +77,8 @@ export default function LoginForm() {
             const userId = response?.data?.id;
             const name = response?.data?.name;
             const firstName = response?.data?.firstName;
-            const username = response?.data?.username;
             const role = response?.data?.role;
-            setAuth({ userId, name, firstName, email, username, accessToken, role });
+            setAuth({ userId, name, firstName, email, accessToken, role });
             setEmail("");
             setPassword("");
             navigateTo(from, { replace: true });
@@ -95,10 +94,7 @@ export default function LoginForm() {
             setPersist(values.persist);
 
             if (values.persist) {
-                localStorage.setItem(
-                    "auth",
-                    JSON.stringify({ userId, name, firstName, email, username, accessToken, role })
-                );
+                localStorage.setItem("auth", JSON.stringify({ userId, name, firstName, email, accessToken, role }));
             }
         } catch (error: any) {
             console.error(error);

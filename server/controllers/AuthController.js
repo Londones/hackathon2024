@@ -1,21 +1,18 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const User = require("../models/User");
+const { User } = require("../models");
 require("dotenv").config();
 
 const AuthController = {
     async register(req, res) {
         try {
-            const { firstName, name, email, username, password } = req.body;
+            const { firstName, name, email, password } = req.body;
             const emailExists = await User.findOne({ where: { email } });
             if (emailExists) return res.status(400).json({ error: "Email already exists" });
-            const usernameExists = await User.findOne({ where: { username } });
-            if (usernameExists) return res.status(400).json({ error: "Username already exists" });
             const user = await User.create({
                 firstName,
                 name,
                 email,
-                username,
                 password: bcrypt.hashSync(password, 10),
             });
             const userWithoutPassword = {
@@ -23,7 +20,6 @@ const AuthController = {
                 firstName: user.firstName,
                 name: user.name,
                 email: user.email,
-                username: user.username,
                 role: user.role,
             };
             res.status(201).json({ user: userWithoutPassword });
@@ -53,7 +49,6 @@ const AuthController = {
                 await user.save();
                 res.status(200).json({
                     token,
-                    username: user.username,
                     id: user.id,
                     name: user.name,
                     firstName: user.firstName,

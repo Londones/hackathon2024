@@ -1,16 +1,26 @@
-const User = require("../models/User");
-const Hypertension = require("../models/Hypertension");
-const Diabete = require("../models/Diabete");
-const Rappel = require("../models/Rappel");
-const { Sequelize } = require("sequelize");
+const { Sequelize, DataTypes } = require("sequelize");
 require("dotenv").config();
 
 const sequelize = new Sequelize(`${process.env.DATABASE_URL}`);
+
+// Import model definition functions
+const defineUser = require("../models/User");
+const defineHypertension = require("../models/Hypertension");
+const defineDiabete = require("../models/Diabete");
+const defineRappel = require("../models/Rappel");
+
+// Instantiate models by calling the definition functions
+const User = defineUser(sequelize, DataTypes);
+const Hypertension = defineHypertension(sequelize, DataTypes);
+const Diabete = defineDiabete(sequelize, DataTypes);
+const Rappel = defineRappel(sequelize, DataTypes);
 
 async function syncTables() {
     try {
         await sequelize.authenticate();
         console.log("Connection has been established successfully.");
+
+        // Now you can sync the models
         await User.sync({ force: true });
         await Hypertension.sync({ force: true });
         await Diabete.sync({ force: true });
