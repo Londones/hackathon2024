@@ -18,6 +18,8 @@ app.use(cors(corsOptions));
 const AuthRoutes = require("./routes/AuthRoutes");
 const RefreshRoutes = require("./routes/RefreshRoutes");
 const DiseaseRoutes = require("./routes/DiseaseRoutes");
+const RappelRoutes = require("./routes/RappelRoutes");
+const AlertRoutes = require("./routes/AlertRoutes");
 
 const userToNotifyFunction = require("./controllers/DiseaseController");
 
@@ -33,14 +35,22 @@ const userToNotifyFunction = require("./controllers/DiseaseController");
 });*/
 
 // Schedule the SMS processing job to run every minutes
-/*schedule.scheduleJob("* * * * *", async () => {
-    console.log("Processing SMS messages...");
-    await SMSController.processSMSMessages();
-});*/
+// schedule.scheduleJob("* * * * *", async () => {
+//     console.log("Processing SMS messages...");
+//     await SMSController.processSMSMessages();
+// });
+
+//Schedule the Last SMS processing 
+// schedule.scheduleJob('*/10 * * * * *', async () => {
+//     console.log("Processing SMS messages...");
+//     await SMSController.processLastSMS();
+// });
 
 app.use("/auth", AuthRoutes);
 app.use("/refresh", RefreshRoutes);
 app.use("/disease", DiseaseRoutes);
+app.use("/rappel", RappelRoutes);
+app.use("/alert", AlertRoutes);
 
 const server = http.createServer(app);
 

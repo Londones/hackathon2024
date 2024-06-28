@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Label } from "@/components/ui/label";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -17,13 +17,25 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const RegisterFormSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
   password: z.string().min(8, "Password must be at least 8 characters"),
   firstName: z.string(),
   name: z.string(),
-  username: z.string(),
+  age: z.union([z.number().min(0, "Age must be a positive number").optional(), z.string().optional()]),
+  sexe: z.enum(["Male", "Female", "Other"]).optional(),
+  weight: z.union([z.number().min(0, "Weight must be a positive number").optional(), z.string().optional()]),
+  height: z.union([z.number().min(0, "Height must be a positive number").optional(), z.string().optional()]),
 });
 
 export default function RegisterForm() {
@@ -52,7 +64,7 @@ export default function RegisterForm() {
       if (!error?.response) {
         toastMsg = "Network error";
       } else if (error.response?.status === 400) {
-        toastMsg = "Email or username already exists";
+        toastMsg = "Email already exists";
       } else {
         toastMsg = "An error occurred";
       }
@@ -71,14 +83,15 @@ export default function RegisterForm() {
 
   return (
     <div className="w-full flex-grow lg:grid lg:grid-cols-2">
-      <div className="hidden bg-muted lg:block">
-        <img
-          alt="Image"
-          width="1920"
-          height="1080"
-          className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-        />
-      </div>
+      <div
+                className='hidden bg-muted lg:block'
+                style={{
+                    backgroundImage: "url('https://plus.unsplash.com/premium_photo-1678310820699-cf7e3e6b8f9b?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+                    backgroundPosition: 'center',
+                    backgroundSize: 'cover'
+                }}
+            >
+            </div>
       <div className="flex items-center justify-center py-12">
         <Form {...form}>
           <form
@@ -121,14 +134,67 @@ export default function RegisterForm() {
             />
             <FormField
               control={form.control}
-              name="username"
+              name="age"
               render={({ field }) => (
                 <FormItem className="">
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Age</FormLabel>
                   <FormControl>
-                    <Input placeholder="johndoe" {...field} />
+                    <Input type="number" placeholder="25" {...field} />
                   </FormControl>
-                  <FormDescription>Enter your username</FormDescription>
+                  <FormDescription>Enter your age</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="sexe"
+              render={({ field }) => (
+                <FormItem className="">
+                  <FormLabel>Sexe</FormLabel>
+                  <FormControl>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select your sexe" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectItem value="Male">Male</SelectItem>
+                          <SelectItem value="Female">Female</SelectItem>
+                          <SelectItem value="Other">Other</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormDescription>Select your sexe</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="weight"
+              render={({ field }) => (
+                <FormItem className="">
+                  <FormLabel>Weight</FormLabel>
+                  <FormControl>
+                    <Input type="text" placeholder="70" {...field} />
+                  </FormControl>
+                  <FormDescription>Enter your weight in kg</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+             <FormField
+              control={form.control}
+              name="height"
+              render={({ field }) => (
+                <FormItem className="">
+                  <FormLabel>Height</FormLabel>
+                  <FormControl>
+                    <Input type="text" placeholder="170" {...field} />
+                  </FormControl>
+                  <FormDescription>Enter your height in cm</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

@@ -16,6 +16,8 @@ module.exports = {
          * }], {});
          */
 
+        const  randomSexe = () => (Math.random() < 0.5 ? "Male" : "Female");
+
         await queryInterface.bulkInsert(
             "Users",
             [
@@ -28,6 +30,10 @@ module.exports = {
                     createdAt: new Date(),
                     updatedAt: new Date(),
                     phone: process.env.PHONE,
+                    age: Math.floor(Math.random() * (70 - 25 + 1) + 25), // age between 25 and 70
+                    height: Math.floor(Math.random() * (190 - 150 + 1) + 150), // height between 150 and 190 cm
+                    weight: Math.floor(Math.random() * (90 - 60 + 1) + 60), // weight between 60 and 90 kg
+                    sexe: randomSexe(),
                     rappel: true,
                 },
                 {
@@ -39,6 +45,10 @@ module.exports = {
                     createdAt: new Date(),
                     updatedAt: new Date(),
                     phone: process.env.PHONE,
+                    age: Math.floor(Math.random() * (70 - 25 + 1) + 25), // age between 25 and 70
+                    height: Math.floor(Math.random() * (190 - 150 + 1) + 150), // height between 150 and 190 cm
+                    weight: Math.floor(Math.random() * (90 - 60 + 1) + 60), // weight between 60 and 90 kg
+                    sexe: randomSexe(),
                     rappel: true,
                 },
                 {
@@ -50,6 +60,10 @@ module.exports = {
                     createdAt: new Date(),
                     updatedAt: new Date(),
                     phone: process.env.PHONE,
+                    age: Math.floor(Math.random() * (70 - 25 + 1) + 25), // age between 25 and 70
+                    height: Math.floor(Math.random() * (190 - 150 + 1) + 150), // height between 150 and 190 cm
+                    weight: Math.floor(Math.random() * (90 - 60 + 1) + 60), // weight between 60 and 90 kg
+                    sexe: randomSexe(),
                     rappel: true,
                 },
             ],

@@ -21,7 +21,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                   userId: "",
                   name: "",
                   firstName: "",
-                  username: "",
                   accessToken: "",
                   email: "",
                   role: "",

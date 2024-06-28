@@ -1,27 +1,43 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import LineChartComponent from './LineChart';
-
-const glycemiaData = [
-    { date: '2024-06-10', glycemia: 100 },
-    { date: '2024-06-11', glycemia: 90 },
-    { date: '2024-06-12', glycemia: 110 },
-    { date: '2024-06-13', glycemia: 112 },
-    { date: '2024-06-14', glycemia: 115 },
-    { date: '2024-06-15', glycemia: 92 },
-    { date: '2024-06-16', glycemia: 92 },
-    { date: '2024-06-17', glycemia: 90 },
-    { date: '2024-06-18', glycemia: 100 },
-    { date: '2024-06-19', glycemia: 99 },
-    { date: '2024-06-20', glycemia: 100 },
-
-];
+import axios from 'axios';
+import useAuth from '@/hooks/useAuth';
 
 const GlycemiaLineChart = () => {
+    const [glycemiaData, setGlycemiaData] = useState([]);
+    const { auth } = useAuth();
+
+    const fetchGlycemiaData = async () => {
+        try {
+            const response = await axios.get(`${(import.meta as any).env.VITE_SERVER_URL}/disease/${auth.userId}/Diabete`,{
+                headers: { Authorization: `Bearer ${auth.accessToken}`,
+                "Content-Type": "application/json"},
+            });
+
+            const data = response.data.map(item => {
+                const date = new Date(item.date);
+                const dateString = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+                return {
+                    ...item,
+                    date: dateString,
+                };
+            });
+
+            setGlycemiaData(data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    useEffect(() => {
+        fetchGlycemiaData();
+    }, []);
+
     return (
         <LineChartComponent
             data={glycemiaData}
-            xKey="date"
-            yKeys={['glycemia']}
+            xKey={'date'}
+            yKeys={['glycemie']}
             title="Taux de glycémie"
             description="Taux de glycémie sur les 10 derniers jours"
             colors={['#8884d8']}

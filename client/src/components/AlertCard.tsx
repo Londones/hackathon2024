@@ -1,6 +1,6 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 
- const AlertCard = ({ title, alerts = [] }) => {
+ const AlertCard = ({ title, alerts }) => {
     return (
         <>
             <Card x-chunk="dashboard-01-chunk-5">
@@ -10,14 +10,14 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
                 <CardContent className="grid gap-8">
                     {alerts.length === 0 ? (
                         <div className="flex items-center justify-center text-muted-foreground">
-                            Pas d'alertes récentes
+                            Pas d'alertes récente
                         </div>
                     ) : (
                         alerts.map((item, index) => (
                             <div key={index} className="flex items-center gap-4">
                                 <div className="grid gap-1">
                                     <p className="text-sm font-medium leading-none">
-                                        {item.type}
+                                        {item.maladie}
                                     </p>
                                     <p className="text-sm text-muted-foreground">
                                         {item.date}

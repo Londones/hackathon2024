@@ -6,6 +6,10 @@ const authenticateToken = require("../middleware/authmiddleware");
 
 const { saveDisease } = require("../controllers/DiseaseController");
 
+const { getUserDiseaseData } = require("../controllers/DiseaseController");
+
 router.post("/:diseaseName", authenticateToken, saveDisease);
+
+router.get("/:userId/:diseaseName", authenticateToken, getUserDiseaseData);
 
 module.exports = router;

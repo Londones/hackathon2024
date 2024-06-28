@@ -1,4 +1,4 @@
-require("dotenv").config();
+ require("dotenv").config();
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -9,6 +9,9 @@ module.exports = {
         const diabeteData = [];
         const hypertensionData = [];
         const rappelData = [];
+        const currentMonth = new Date().getMonth();
+        const currentYear = new Date().getFullYear();
+        let isAjeun = true;
 
         rappelData.push({
             userID: 1,
@@ -28,6 +31,7 @@ module.exports = {
             updatedAt: new Date(),
         });
 
+        startDate.setDate(startDate.getDate() - 14);
         for (let day = 0; day < 14; day++) {
             const date = new Date(startDate);
             date.setDate(startDate.getDate() + day);
@@ -38,14 +42,23 @@ module.exports = {
                     userID: userId,
                     date: date,
                     glycemie: Math.floor(Math.random() * (120 - 80 + 1) + 80), // Random glycemie between 80 and 120
+                    isAjeun : isAjeun,
                     createdAt: new Date(),
                     updatedAt: new Date(),
                 });
+                // Generate Rappel data (assuming daily reminders for simplicity)
+            });
+        }
 
+        const startDateHyperTension = new Date(currentYear, 0, 1);
+        const endDate = new Date();
+
+        for (let date = new Date(startDateHyperTension); date <= endDate; date.setDate(date.getDate() + 30)) {
+            userIds.forEach((userId) => {
                 // Generate Hypertension data
                 hypertensionData.push({
                     userID: userId,
-                    date: date,
+                    date: new Date(date),
                     systolic: Math.floor(Math.random() * (140 - 120 + 1) + 120), // Random systolic between 120 and 140
                     diastolic: Math.floor(Math.random() * (90 - 80 + 1) + 80), // Random diastolic between 80 and 90
                     createdAt: new Date(),
@@ -53,8 +66,11 @@ module.exports = {
                 });
 
                 // Generate Rappel data (assuming daily reminders for simplicity)
+                
+                //juste to alternante beetween isAjeun and !isAjeun
+                isAjeun = !isAjeun;
             });
-        }
+        }    
 
         // Insert data into tables
         await queryInterface.bulkInsert("Diabetes", diabeteData, {});

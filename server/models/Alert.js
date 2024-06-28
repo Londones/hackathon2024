@@ -1,14 +1,14 @@
 const { Model } = require("sequelize");
 
 module.exports = function (sequelize, DataTypes) {
-    class Diabete extends Model {
+    class Alert extends Model {
         static associate(models) {
-            Diabete.belongsTo(models.User, {
+            Alert.belongsTo(models.User, {
                 foreignKey: "userID",
                 onDelete: "CASCADE",
                 onUpdate: "CASCADE",
             });
-            models.User.hasMany(Diabete, {
+            models.User.hasMany(Alert, {
                 foreignKey: "userID",
                 onDelete: "CASCADE",
                 onUpdate: "CASCADE",
@@ -16,7 +16,7 @@ module.exports = function (sequelize, DataTypes) {
         }
     }
 
-    Diabete.init(
+    Alert.init(
         {
             userID: {
                 type: DataTypes.INTEGER,
@@ -30,21 +30,20 @@ module.exports = function (sequelize, DataTypes) {
                 type: DataTypes.DATE,
                 allowNull: false,
             },
-            glycemie: {
-                type: DataTypes.INTEGER,
+            message: {
+                type: DataTypes.STRING,
                 allowNull: false,
             },
-
-            isAjeun: {
-                type: DataTypes.BOOLEAN,
+            maladie: {
+                type: DataTypes.STRING,
                 allowNull: false,
             },
         },
         {
             sequelize,
-            modelName: "Diabete",
+            modelName: "Alert",
         }
     );
 
-    return Diabete;
+    return Alert;
 };

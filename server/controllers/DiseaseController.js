@@ -1,5 +1,6 @@
 const moment = require("moment"); // For handling dates and times
 const { Rappel, User, Hypertension, Diabete } = require("../models");
+const { Op } = require('sequelize');
 
 const DiseaseController = {
     async findUsersToNotify() {
@@ -131,6 +132,89 @@ const DiseaseController = {
             } else {
                 throw error;
             }
+        }
+    },
+
+    async getUserDiseaseData(req, res) {
+        try {
+            const { userId, diseaseName } = req.params;
+    
+            if (diseaseName == 'diabete') {
+                return this.getUserDiabeteDataLast10Days(req, res);
+            }
+    
+            if (diseaseName == 'hypertension') {
+                return this.getUserHyperTensionDataThisYear(req, res);
+            }
+    
+            const DiseaseModel = getDiseaseModel(diseaseName);
+    
+            if (!DiseaseModel) {
+                return res.status(404).send({
+                    error: "Disease not found",
+                });
+            }
+    
+            const data = await DiseaseModel.findAll({
+                where: { userID: userId },
+                order: [["date", "ASC"]],
+            });
+    
+            res.status(200).send(data);
+        }
+        catch (error) {
+            res.status(500).send({
+                error: "An error occurred while fetching the disease data",
+            });
+        }
+    },
+
+    async getUserDiabeteDataLast10Days(req, res) {
+        try {
+            const { userId } = req.params;
+            const DiseaseModel = getDiseaseModel('diabete');
+
+            const date = moment().subtract(10, 'days').toDate();
+
+            const data = await DiseaseModel.findAll({
+                where: { 
+                    userID: userId,
+                    date: {
+                        [Op.gte]: date
+                    }
+                },
+                order: [["date", "ASC"]],
+            });
+
+            res.status(200).send(data);
+        } catch (error) {
+            res.status(500).send({
+                error: "An error occurred while fetching the disease data",
+            });
+        }
+    },
+    
+    async getUserHyperTensionDataThisYear(req, res) {
+        try {
+            const { userId } = req.params;
+            const DiseaseModel = getDiseaseModel('hypertension');
+    
+            const date = moment().startOf('year').toDate();
+    
+            const data = await DiseaseModel.findAll({
+                where: {
+                    userID: userId,
+                    date: {
+                        [Op.gte]: date,
+                    },
+                },
+            });
+    
+            res.status(200).send(data);
+        } catch (error) {
+            res.status(500).send({
+                error: "An error occurred while fetching the disease data",
+            });
         }
     },
 };
