@@ -26,7 +26,7 @@ const generateReminders = (remindersData) => {
             const endTime = moment(startTime).add(1, 'hour');
 
             reminders.push({
-                title: `Enseigner le taux de ${item.maladie}`,
+                title: `Enregistrer le taux de ${item.maladie}`,
                 start: startTime.toDate(),
                 end: endTime.toDate(),
                 colorEvento: item.maladie === 'Diabete' ? '#FF5733' : '#3366CC'
@@ -74,7 +74,6 @@ const ReminderCalendar = () => {
                 "Content-Type": "application/json"},
             });
             
-            console.log(response.data)
             const reminders = generateReminders(response.data);
             
             setReminder(reminders);

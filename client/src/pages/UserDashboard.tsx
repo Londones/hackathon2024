@@ -19,7 +19,7 @@ const UserDashboard = () => {
                     <main className="p-6 space-y-6">
                         <Tabs defaultValue='glycemie'>
                             <TabsList className="flex space-x-4">
-                                <TabsTrigger value='glycemie'>Diabete</TabsTrigger>
+                                <TabsTrigger value='glycemie'>Diabète</TabsTrigger>
                                 <TabsTrigger value='hypertension'>Hypertension</TabsTrigger>
                                 <TabsTrigger value='rappel'>Rappels</TabsTrigger>
                             </TabsList>
