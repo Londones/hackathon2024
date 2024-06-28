@@ -30,9 +30,7 @@ const UserDashboard = () => {
                                         <GlycemiaLineChart />
                                     </div>
                                     <div className='flex flex-col gap-4 w-full'>
-                                        <DiabeteAlertCard />
                                         <Button
-                                            variant='outline'
                                             className='w-full'
                                             onClick={() => {
                                                 navigate("/user/diabete");
@@ -40,6 +38,7 @@ const UserDashboard = () => {
                                         >
                                             Enregistrer sa glycémie
                                         </Button>
+                                        <DiabeteAlertCard />
                                     </div>
                                 </div>
                             </TabsContent>
@@ -49,9 +48,7 @@ const UserDashboard = () => {
                                         <HypertensionBarChart />
                                     </div>
                                     <div className='flex flex-col h-full gap-4'>
-                                        <HyperTensionAlertCard />
                                         <Button
-                                            variant='outline'
                                             className='w-full'
                                             onClick={() => {
                                                 navigate("/user/hypertension");
@@ -59,6 +56,7 @@ const UserDashboard = () => {
                                         >
                                             Enregistrer sa tension
                                         </Button>
+                                        <HyperTensionAlertCard />
                                     </div>
                                 </div>
                             </TabsContent>

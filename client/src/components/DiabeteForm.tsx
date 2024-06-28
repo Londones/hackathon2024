@@ -20,8 +20,6 @@ import {
     DialogDescription,
     DialogFooter,
     DialogHeader,
-    DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog";
 import useAuth from "@/hooks/useAuth";
 import { axiosPrivate } from "@/api/axios";
@@ -96,7 +94,7 @@ const DiabeteForm = () => {
                 toast.error("Erreur", {
                     description: toastMsg,
                     action: {
-                        label: "Dismiss",
+                        label: "Fermer",
                         onClick: () => {
                             toast.dismiss();
                         },
@@ -149,7 +147,7 @@ const DiabeteForm = () => {
             toast.error("Error", {
                 description: toastMsg,
                 action: {
-                    label: "Dismiss",
+                    label: "Fermer",
                     onClick: () => {
                         toast.dismiss();
                     },

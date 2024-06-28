@@ -1,25 +1,20 @@
-import { useEffect } from "react";
-import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import React, { createContext, useContext } from "react";
+import { Outlet } from "react-router-dom";
 import AppTopBar from "./AppTopBar";
-import useAuth from "../hooks/useAuth";
 
+export const LayoutContext = createContext(null);
 
-export default function Layout() {
-    const navigate = useNavigate();
-    const { auth } = useAuth();
-    const location = useLocation();
+export const useLayout = () => {
+    return useContext(LayoutContext);
+};
 
-    console.log(auth);
-    useEffect(() => {
-        if (!auth.email && !auth.userId && location.pathname !== '/register') {
-            navigate("/login");
-        }
-    }, [auth, navigate]);
-
+export function Layout() {
     return (
         <div className='flex flex-col h-screen'>
             <AppTopBar />
-            <Outlet />
+            <LayoutContext.Provider value={true}>
+                <Outlet />
+            </LayoutContext.Provider>
         </div>
     );
 }

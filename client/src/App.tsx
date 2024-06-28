@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import useAuth from "./hooks/useAuth";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
-import Layout from "./layout/Layout";
+import { Layout } from "./layout/Layout";
 import HomeAdmin from "./pages/HomeAdmin";
 import AdminDashboard from "./pages/AdminDashboard";
 import PersistLogin from "./auth/PersistLogin";

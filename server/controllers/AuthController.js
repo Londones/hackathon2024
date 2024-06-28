@@ -63,6 +63,7 @@ const AuthController = {
                     firstName: user.firstName,
                     role: user.role,
                     age: user.age,
+                    email: user.email,
                     height: user.height,
                     weight: user.weight,
                     sexe: user.sexe,

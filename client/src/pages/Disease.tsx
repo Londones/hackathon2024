@@ -18,7 +18,7 @@ const Disease = () => {
         }
     };
 
-    return <div className='flex justify-center'>{renderForm()}</div>;
+    return <div className='flex justify-center flex-grow'>{renderForm()}</div>;
 };
 
 export default Disease;

@@ -97,7 +97,7 @@ const HypertensionForm = () => {
                 toast.error("Erreur", {
                     description: toastMsg,
                     action: {
-                        label: "Dismiss",
+                        label: "Fermer",
                         onClick: () => {
                             toast.dismiss();
                         },
@@ -149,7 +149,7 @@ const HypertensionForm = () => {
             toast.error("Error", {
                 description: toastMsg,
                 action: {
-                    label: "Dismiss",
+                    label: "Fermer",
                     onClick: () => {
                         toast.dismiss();
                     },

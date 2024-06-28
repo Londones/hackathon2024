@@ -13,7 +13,7 @@ import { toast } from "sonner";
 import { Switch } from "./ui/switch";
 
 const LoginFormSchema = z.object({
-    email: z.string().email("Please enter a valid email address"),
+    email: z.string().email("Entrez un email valide"),
     password: z.string(),
     persist: z.boolean().default(false).optional(),
 });
@@ -23,9 +23,6 @@ export default function LoginForm() {
     const navigateTo = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
-
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
 
     const form = useForm<z.infer<typeof LoginFormSchema>>({
         resolver: zodResolver(LoginFormSchema),
@@ -45,10 +42,10 @@ export default function LoginForm() {
             );
 
             if (response.status === 200) {
-                toast.success("Success", {
-                    description: "You have successfully logged in",
+                toast.success("Validé", {
+                    description: "Vous êtes connecté",
                     action: {
-                        label: "Dismiss",
+                        label: "Fermer",
                         onClick: () => {
                             toast.dismiss();
                         },
@@ -57,15 +54,15 @@ export default function LoginForm() {
             } else {
                 let toastMsg = "";
                 if (response.status === 400) {
-                    toastMsg = "Email or password incorrect";
+                    toastMsg = "Email ou mot de passe incorrect";
                 } else if (response.status === 401) {
-                    toastMsg = "Unauthorized access";
+                    toastMsg = "Accès non autorisé";
                 }
 
-                toast.error("Error", {
+                toast.error("Erreur", {
                     description: toastMsg,
                     action: {
-                        label: "Dismiss",
+                        label: "Fermer",
                         onClick: () => {
                             toast.dismiss();
                         },
@@ -79,9 +76,8 @@ export default function LoginForm() {
             const firstName = response?.data?.firstName;
             const role = response?.data?.role;
             const age = response?.data?.age;
+            const email = response?.data?.email;
             setAuth({ userId, name, firstName, age, email, accessToken, role });
-            setEmail("");
-            setPassword("");
             navigateTo(from, { replace: true });
             if (role === "admin") {
                 navigateTo("/admin", { replace: true });
@@ -117,9 +113,9 @@ export default function LoginForm() {
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className='mx-auto grid w-[350px] gap-4'>
                         <div className='grid gap-2 text-center'>
-                            <h1 className='text-3xl font-bold'>Login</h1>
+                            <h1 className='text-3xl font-bold'>Connexion</h1>
                             <p className='text-balance text-muted-foreground'>
-                                Enter your email below to login to your account
+                                Connectez-vous pour accéder à votre compte
                             </p>
                         </div>
                         <FormField
@@ -131,7 +127,7 @@ export default function LoginForm() {
                                     <FormControl>
                                         <Input placeholder='example@mail.com' {...field} />
                                     </FormControl>
-                                    <FormDescription>Enter your email</FormDescription>
+                                    <FormDescription>Entrez votre email</FormDescription>
                                     <FormMessage />
                                 </FormItem>
                             )}
@@ -141,11 +137,11 @@ export default function LoginForm() {
                             name='password'
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Password</FormLabel>
+                                    <FormLabel>Mot de passe</FormLabel>
                                     <FormControl>
-                                        <Input type='password' placeholder='Password' {...field} />
+                                        <Input type='password' placeholder='Mot de passe' {...field} />
                                     </FormControl>
-                                    <FormDescription>Enter your password</FormDescription>
+                                    <FormDescription>Entrez votre mot de passe</FormDescription>
                                     <FormMessage />
                                 </FormItem>
                             )}
@@ -162,26 +158,26 @@ export default function LoginForm() {
                                             id='persist'
                                             className='mr-4'
                                         />
-                                        <span>Remember me</span>
+                                        <span>Se sourvenir de moi</span>
                                     </Label>
                                 </FormItem>
                             )}
                         />
                         <FormItem>
                             <Button type='submit' className='btn btn-primary w-full'>
-                                Login
+                                Se connecter
                             </Button>
                         </FormItem>
                         <div className='flex justify-between'>
                             <FormDescription>
-                                No account?{" "}
+                                Pas de compte ?{" "}
                                 <Link to='/register' className='text-primary underline'>
-                                    Register instead
+                                    S'inscrire
                                 </Link>
                             </FormDescription>
                             <FormDescription>
                                 <Link to='/forgot-password' className='text-primary underline'>
-                                    Forgot password?
+                                    Mot de passe oublié ?
                                 </Link>
                             </FormDescription>
                         </div>
