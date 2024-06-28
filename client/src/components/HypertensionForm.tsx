@@ -254,9 +254,20 @@ const HypertensionForm = () => {
                         )}
                     />
 
-                    <Button className='w-full' type='submit'>
-                        Submit
-                    </Button>
+                    <div className='flex flex-row gap-2'>
+                        <Button
+                            variant='outline'
+                            className='w-1/2'
+                            onClick={() => {
+                                window.history.back();
+                            }}
+                        >
+                            Retour
+                        </Button>
+                        <Button className='w-1/2' type='submit'>
+                            Enregistrer
+                        </Button>
+                    </div>
                 </form>
             </Form>
         </div>
