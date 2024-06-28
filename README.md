@@ -57,9 +57,9 @@ Sur le client lancer
 - Tableau de bord utilisateur :
 
     - Graphique de la Diabète (front + back) : TRAN DIEP Mai Thi
-    - Alerte de la Diabète (front + back) : TRAN DIEP Mai Thi
+    - Carte de l'alerte de la Diabète (front + back récupération) : TRAN DIEP Mai Thi
     - Graphique de la Hypertension (front + back) : TRAN DIEP Mai Thi
-    - Alerte de la Hypertension (front + back) : TRAN DIEP Mai Thi
+    - Carte de l'alerte de la Hypertension (front + back récupération) : TRAN DIEP Mai Thi
     - Calendrier des rappels (front + back) : TRAN DIEP Mai Thi
     - Ajouter / Modifier un rappel (front + back) : TRAN DIEP Mai Thi
 
