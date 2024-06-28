@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import useAuth from "./hooks/useAuth";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
-import Layout from "./layout/Layout";
+import { Layout } from "./layout/Layout";
 import HomeAdmin from "./pages/HomeAdmin";
 import AdminDashboard from "./pages/AdminDashboard";
 import PersistLogin from "./auth/PersistLogin";
@@ -14,6 +14,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
+import Disease from "./pages/Disease";
 
 function App() {
     const { auth } = useAuth();
@@ -30,6 +31,7 @@ function App() {
                             </Route>
                             <Route path='/user/*' element={<RequireAuth allowedRoles={["user"]} />}>
                                 <Route index element={<UserDashboard />} />
+                                <Route path=':disease' element={<Disease />} />
                             </Route>
                         </Route>
                         <Route path='/login' element={<LoginForm />} />

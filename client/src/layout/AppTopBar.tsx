@@ -53,7 +53,7 @@ function ResponsiveAppBar() {
                             }}
                             className='btn btn-primary'
                         >
-                            Login
+                            Se connecter
                         </Button>
                         <Button
                             onClick={() => {
@@ -61,7 +61,7 @@ function ResponsiveAppBar() {
                             }}
                             className='btn btn-secondary'
                         >
-                            Register
+                            S'inscrire
                         </Button>
                     </div>
                 </>

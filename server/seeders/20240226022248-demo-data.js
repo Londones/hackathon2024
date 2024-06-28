@@ -16,7 +16,7 @@ module.exports = {
          * }], {});
          */
 
-        const randomSexe = () => (Math.random() < 0.5 ? "Male" : "Female");
+        const  randomSexe = () => (Math.random() < 0.5 ? "Male" : "Female");
 
         await queryInterface.bulkInsert(
             "Users",

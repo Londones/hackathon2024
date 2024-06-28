@@ -9,10 +9,12 @@ function genererPrompt(mesure, userProfile) {
     switch (mesure.maladie) {
         case 'Diabète':
             const glucoseValue = parseFloat(mesure.valeur)/100; 
+
+            const sexe = userProfile.sexe == "Male" ? "un homme" : "une femme"
             const glucoseMessage = `Ma glycémie est de ${glucoseValue.toFixed(2)} g/L et je suis ${mesure.aJeun ? 'à jeun' : 'pas à jeun'}.`;
             return [
                 {role: 'system',content: 'les utilisateurs vont te poser des questions sur leurs taux de glycémie si elle est elevé ou pas. ou vont te donner directement des valeurs. il faudra leurs répondre sans trop parler (max 140 caractères). par des réponses simple et explicite sans desclaimer sur si leurs taux de glycémie est elevé ou pas.'},
-                { role : 'user' , content: `Bonjour, j'ai ${userProfile.age} ans pour ${userProfile.weight} kg et ${userProfile.height} cm. Je voudrais savoir mon état de glucose ? ${glucoseMessage} et proposez-moi des solutions immédiates.`}
+                { role : 'user' , content: `Bonjour, je suis ${sexe} et j'ai ${userProfile.age} ans pour ${userProfile.weight} kg et ${userProfile.height} cm. Je voudrais savoir mon état de glucose ? ${glucoseMessage} et proposez-moi des solutions immédiates.`}
             ];
         case 'Hypertension':
             const bpMessage = `Ma tension artérielle est de ${mesure.valeur} mmHg.`;

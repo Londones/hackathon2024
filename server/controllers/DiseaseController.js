@@ -81,34 +81,49 @@ const DiseaseController = {
 
             const { userID, date, confirmUpsert, ...data } = req.body;
 
+            const utcDate = moment(date).utc().format();
+
             // Check for existing data for the given date
             const existingEntry = await DiseaseModel.findOne({
-                where: { userID: userID, date: date },
+                where: { userID: userID, date: utcDate },
             });
 
             if (existingEntry && !confirmUpsert) {
                 // If data exists and there's no confirmation to upsert, warn the user
                 if (res) {
                     return res.status(409).send({
-                        warning: "Data for this date already exists. Do you want to overwrite it?",
+                        warning: "Des données pour cette date existent déjà. Voulez-vous les remplacer ?",
                     });
                 } else {
                     return;
                 }
             }
 
+            let returnPhrase = "";
             // Upsert data
-            const newOrUpdatedEntry = await DiseaseModel.upsert(
-                {
+            if (existingEntry) {
+                // Update existing entry
+                await DiseaseModel.update(
+                    {
+                        date: utcDate,
+                        ...data,
+                    },
+                    {
+                        where: { id: existingEntry.id },
+                    }
+                );
+                returnPhrase = "Données mises à jour avec succès";
+            } else {
+                // Create new entry
+                await DiseaseModel.create({
                     userID: userID,
-                    date: date,
+                    date: utcDate,
                     ...data,
-                },
-                {
-                    returning: true, // This option is necessary to get the updated/created entry back
-                }
-            );
-            if (res) res.status(200).send(newOrUpdatedEntry);
+                });
+                returnPhrase = "Données enregistrées avec succès";
+            }
+
+            if (res) res.status(201).send({ message: returnPhrase });
         } catch (error) {
             if (res) {
                 res.status(500).send({

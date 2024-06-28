@@ -6,243 +6,228 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select";
 
 const RegisterFormSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-  firstName: z.string(),
-  name: z.string(),
-  age: z.union([z.number().min(0, "Age must be a positive number").optional(), z.string().optional()]),
-  sexe: z.enum(["Male", "Female", "Other"]).optional(),
-  weight: z.union([z.number().min(0, "Weight must be a positive number").optional(), z.string().optional()]),
-  height: z.union([z.number().min(0, "Height must be a positive number").optional(), z.string().optional()]),
+    email: z.string().email("Please enter a valid email address"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
+    firstName: z.string(),
+    name: z.string(),
+    age: z.union([z.number().min(0, "Age must be a positive number").optional(), z.string().optional()]),
+    sexe: z.enum(["Male", "Female", "Other"]).optional(),
+    weight: z.union([z.number().min(0, "Weight must be a positive number").optional(), z.string().optional()]),
+    height: z.union([z.number().min(0, "Height must be a positive number").optional(), z.string().optional()]),
 });
 
 export default function RegisterForm() {
-  const navigateTo = useNavigate();
+    const navigateTo = useNavigate();
 
-  const form = useForm<z.infer<typeof RegisterFormSchema>>({
-    resolver: zodResolver(RegisterFormSchema),
-  });
+    const form = useForm<z.infer<typeof RegisterFormSchema>>({
+        resolver: zodResolver(RegisterFormSchema),
+    });
 
-  const onSubmit = async (values: z.infer<typeof RegisterFormSchema>) => {
-    try {
-      await axios.post(
-        `${(import.meta as any).env.VITE_SERVER_URL}/auth/register`,
-        JSON.stringify(values),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
+    const onSubmit = async (values: z.infer<typeof RegisterFormSchema>) => {
+        try {
+            await axios.post(`${(import.meta as any).env.VITE_SERVER_URL}/auth/register`, JSON.stringify(values), {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                withCredentials: true,
+            });
+
+            navigateTo("/login", { replace: true });
+        } catch (error: any) {
+            let toastMsg = "";
+            if (!error?.response) {
+                toastMsg = "Network error";
+            } else if (error.response?.status === 400) {
+                toastMsg = "Email already exists";
+            } else {
+                toastMsg = "An error occurred";
+            }
+
+            toast.error("Error", {
+                description: toastMsg,
+                action: {
+                    label: "Fermer",
+                    onClick: () => {
+                        toast.dismiss();
+                    },
+                },
+            });
         }
-      );
+    };
 
-      navigateTo("/login", { replace: true });
-    } catch (error: any) {
-      let toastMsg = "";
-      if (!error?.response) {
-        toastMsg = "Network error";
-      } else if (error.response?.status === 400) {
-        toastMsg = "Email already exists";
-      } else {
-        toastMsg = "An error occurred";
-      }
-
-      toast.error("Error", {
-        description: toastMsg,
-        action: {
-          label: "Dismiss",
-          onClick: () => {
-            toast.dismiss();
-          },
-        },
-      });
-    }
-  };
-
-  return (
-    <div className="w-full flex-grow lg:grid lg:grid-cols-2">
-      <div
+    return (
+        <div className='w-full flex-grow lg:grid lg:grid-cols-2'>
+            <div
                 className='hidden bg-muted lg:block'
                 style={{
-                    backgroundImage: "url('https://plus.unsplash.com/premium_photo-1678310820699-cf7e3e6b8f9b?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
-                    backgroundPosition: 'center',
-                    backgroundSize: 'cover'
+                    backgroundImage:
+                        "url('https://plus.unsplash.com/premium_photo-1678310820699-cf7e3e6b8f9b?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
                 }}
-            >
+            ></div>
+            <div className='flex items-center justify-center py-12'>
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className='mx-auto grid w-[350px] gap-4'>
+                        <div className='grid gap-2 text-center'>
+                            <h1 className='text-3xl font-bold'>Register</h1>
+                            <p className='text-balance text-muted-foreground'>
+                                Entrez vos informations pour créer un compte
+                            </p>
+                        </div>
+                        <FormField
+                            control={form.control}
+                            name='firstName'
+                            render={({ field }) => (
+                                <FormItem className=''>
+                                    <FormLabel>Prénom</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder='John' {...field} />
+                                    </FormControl>
+                                    <FormDescription>Entrez vortre prénom</FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name='name'
+                            render={({ field }) => (
+                                <FormItem className=''>
+                                    <FormLabel>Nom de famille</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder='Doe' {...field} />
+                                    </FormControl>
+                                    <FormDescription>Entrez votre nom de famille</FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name='age'
+                            render={({ field }) => (
+                                <FormItem className=''>
+                                    <FormLabel>Age</FormLabel>
+                                    <FormControl>
+                                        <Input type='number' placeholder='25' {...field} />
+                                    </FormControl>
+                                    <FormDescription>Entre votre age</FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name='sexe'
+                            render={({ field }) => (
+                                <FormItem className=''>
+                                    <FormLabel>Sexe</FormLabel>
+                                    <FormControl>
+                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                            <SelectTrigger className='w-full'>
+                                                <SelectValue placeholder='Selectionnez votre sexe' />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    <SelectItem value='Male'>Male</SelectItem>
+                                                    <SelectItem value='Female'>Female</SelectItem>
+                                                    <SelectItem value='Other'>Other</SelectItem>
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                    </FormControl>
+                                    <FormDescription>Selectionnez votre sexe</FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name='weight'
+                            render={({ field }) => (
+                                <FormItem className=''>
+                                    <FormLabel>Poids</FormLabel>
+                                    <FormControl>
+                                        <Input type='text' placeholder='70' {...field} />
+                                    </FormControl>
+                                    <FormDescription>Entrez votre poids en kg</FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name='height'
+                            render={({ field }) => (
+                                <FormItem className=''>
+                                    <FormLabel>Taille</FormLabel>
+                                    <FormControl>
+                                        <Input type='text' placeholder='170' {...field} />
+                                    </FormControl>
+                                    <FormDescription>Entrez votre taille en cm</FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name='email'
+                            render={({ field }) => (
+                                <FormItem className=''>
+                                    <FormLabel>Email</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder='example@mail.com' {...field} />
+                                    </FormControl>
+                                    <FormDescription>Entrez votre email</FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name='password'
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Password</FormLabel>
+                                    <FormControl>
+                                        <Input type='password' placeholder='Mot de passe' {...field} />
+                                    </FormControl>
+                                    <FormDescription>Entrez votre mot de passe</FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormItem>
+                            <Button type='submit' className='btn btn-primary w-full'>
+                                S'inscrire
+                            </Button>
+                        </FormItem>
+                        <div className='flex justify-between'>
+                            <FormDescription>
+                                Vous avez déjà un compte ?{" "}
+                                <Link to='/login' className='text-primary underline'>
+                                    Connectez-vous
+                                </Link>
+                            </FormDescription>
+                        </div>
+                    </form>
+                </Form>
             </div>
-      <div className="flex items-center justify-center py-12">
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="mx-auto grid w-[350px] gap-4"
-          >
-            <div className="grid gap-2 text-center">
-              <h1 className="text-3xl font-bold">Register</h1>
-              <p className="text-balance text-muted-foreground">
-                Enter your details below to create a new account
-              </p>
-            </div>
-            <FormField
-              control={form.control}
-              name="firstName"
-              render={({ field }) => (
-                <FormItem className="">
-                  <FormLabel>First Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="John" {...field} />
-                  </FormControl>
-                  <FormDescription>Enter your first name</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem className="">
-                  <FormLabel>Last Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Doe" {...field} />
-                  </FormControl>
-                  <FormDescription>Enter your last name</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="age"
-              render={({ field }) => (
-                <FormItem className="">
-                  <FormLabel>Age</FormLabel>
-                  <FormControl>
-                    <Input type="number" placeholder="25" {...field} />
-                  </FormControl>
-                  <FormDescription>Enter your age</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="sexe"
-              render={({ field }) => (
-                <FormItem className="">
-                  <FormLabel>Sexe</FormLabel>
-                  <FormControl>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select your sexe" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectItem value="Male">Male</SelectItem>
-                          <SelectItem value="Female">Female</SelectItem>
-                          <SelectItem value="Other">Other</SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormDescription>Select your sexe</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="weight"
-              render={({ field }) => (
-                <FormItem className="">
-                  <FormLabel>Weight</FormLabel>
-                  <FormControl>
-                    <Input type="text" placeholder="70" {...field} />
-                  </FormControl>
-                  <FormDescription>Enter your weight in kg</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-             <FormField
-              control={form.control}
-              name="height"
-              render={({ field }) => (
-                <FormItem className="">
-                  <FormLabel>Height</FormLabel>
-                  <FormControl>
-                    <Input type="text" placeholder="170" {...field} />
-                  </FormControl>
-                  <FormDescription>Enter your height in cm</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem className="">
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="example@mail.com" {...field} />
-                  </FormControl>
-                  <FormDescription>Enter your email</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input type="password" placeholder="Password" {...field} />
-                  </FormControl>
-                  <FormDescription>Enter your password</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormItem>
-              <Button type="submit" className="btn btn-primary w-full">
-                Register
-              </Button>
-            </FormItem>
-            <div className="flex justify-between">
-              <FormDescription>
-                Already have an account?{" "}
-                <Link to="/login" className="text-primary underline">
-                  Login instead
-                </Link>
-              </FormDescription>
-            </div>
-          </form>
-        </Form>
-      </div>
-    </div>
-  );
+        </div>
+    );
 }

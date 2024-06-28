@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const {User} = require("../models");
+const { User } = require("../models");
 require("dotenv").config();
 
 const AuthController = {
@@ -17,7 +17,7 @@ const AuthController = {
                 age,
                 height,
                 weight,
-                sexe
+                sexe,
             });
             const userWithoutPassword = {
                 id: user.id,
@@ -28,11 +28,11 @@ const AuthController = {
                 age: user.age,
                 height: user.height,
                 weight: user.weight,
-                sexe: user.sexe
+                sexe: user.sexe,
             };
             res.status(201).json({ user: userWithoutPassword });
         } catch (error) {
-            console.log("Error signup : ", error );
+            console.log("Error signup : ", error);
             res.status(401).json({ error: error.message });
         }
     },
@@ -63,9 +63,10 @@ const AuthController = {
                     firstName: user.firstName,
                     role: user.role,
                     age: user.age,
+                    email: user.email,
                     height: user.height,
                     weight: user.weight,
-                    sexe: user.sexe
+                    sexe: user.sexe,
                 });
             } else {
                 res.status(401).json({ error: "Invalid email or password" });
