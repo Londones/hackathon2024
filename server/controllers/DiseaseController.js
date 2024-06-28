@@ -1,6 +1,6 @@
 const moment = require("moment"); // For handling dates and times
 const { Rappel, User, Hypertension, Diabete } = require("../models");
-const { Op } = require('sequelize');
+const { Op } = require("sequelize");
 
 const DiseaseController = {
     async findUsersToNotify() {
@@ -18,7 +18,7 @@ const DiseaseController = {
                 const frequency = rappel.frequence; // Frequency in days
                 const rappelTime = rappel.heure; // Rappel time in hours (e.g., 14 for 2 PM)
                 const diseaseName = rappel.maladie; // Disease name from the rappel
-                const DiseaseModel = getDiseaseModel(diseaseName); // Assuming a function that maps disease names to their respective models
+                const DiseaseModel = getDiseaseModel(diseaseName);
                 const message = `Avez-vous oublié de saisir vos données de santé aujourd'hui pour ${diseaseName} ?`;
 
                 // Find the most recent data entry for this user in the specific disease table
@@ -127,7 +127,7 @@ const DiseaseController = {
         } catch (error) {
             if (res) {
                 res.status(500).send({
-                    error: "An error occurred while saving the disease data",
+                    error: `Une erreur s'est produite lors de l'enregistrement des données de la maladie`,
                 });
             } else {
                 throw error;
