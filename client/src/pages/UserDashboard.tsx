@@ -7,6 +7,7 @@ import HypertensionBarChart from "@/components/HyperTensionBarChart";
 import DiabeteAlertCard from "@/components/DiabeteAlertCard";
 import HyperTensionAlertCard from "@/components/HypertensionAlertCard";
 import ReminderCalendar from "@/components/ReminderCalendar";
+import { UserMessages } from "@/components/userMessages";
 import { Button } from "@/components/ui/button";
 
 const UserDashboard = () => {
@@ -66,6 +67,7 @@ const UserDashboard = () => {
                         </div>
                     </TabsContent>
                 </Tabs>
+                <UserMessages/>                
             </main>
         </>
     );

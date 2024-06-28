@@ -20,6 +20,7 @@ const RefreshRoutes = require("./routes/RefreshRoutes");
 const DiseaseRoutes = require("./routes/DiseaseRoutes");
 const RappelRoutes = require("./routes/RappelRoutes");
 const AlertRoutes = require("./routes/AlertRoutes");
+const MessageRoutes = require("./routes/MessageRoutes");
 
 const userToNotifyFunction = require("./controllers/DiseaseController");
 
@@ -40,7 +41,7 @@ const userToNotifyFunction = require("./controllers/DiseaseController");
 //     await SMSController.processSMSMessages();
 // });
 
-//Schedule the Last SMS processing 
+// Schedule the Last SMS processing 
 // schedule.scheduleJob('*/10 * * * * *', async () => {
 //     console.log("Processing SMS messages...");
 //     await SMSController.processLastSMS();
@@ -51,6 +52,7 @@ app.use("/refresh", RefreshRoutes);
 app.use("/disease", DiseaseRoutes);
 app.use("/rappel", RappelRoutes);
 app.use("/alert", AlertRoutes);
+app.use("/message", MessageRoutes);
 
 const server = http.createServer(app);
 
