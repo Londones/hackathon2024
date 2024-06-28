@@ -8,8 +8,14 @@ const { getUserRappels } = require("../controllers/RappelController");
 
 const { updateUserRappel } = require("../controllers/RappelController");
 
+const { saveUserRappel } = require("../controllers/RappelController");
+
 router.get("/:userId", authenticateToken, getUserRappels);
 
+router.post("/:userId", authenticateToken, saveUserRappel);
+
 router.put("/:userId", authenticateToken, updateUserRappel);
+
+
 
 module.exports = router;

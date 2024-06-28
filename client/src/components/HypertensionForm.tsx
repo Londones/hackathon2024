@@ -22,6 +22,8 @@ import {
     DialogHeader,
 } from "@/components/ui/dialog";
 import { fr } from "date-fns/locale/fr";
+import { Label } from "./ui/label";
+import { Switch } from "./ui/switch";
 
 const HypertensionFormSchema = z.object({
     systolic: z.coerce
@@ -39,6 +41,7 @@ const HypertensionFormSchema = z.object({
     date: z.date({
         required_error: "Entrez une date",
     }),
+    isAjeun: z.boolean(),
 });
 
 const HypertensionForm = () => {
@@ -59,6 +62,7 @@ const HypertensionForm = () => {
                     diastolic: values.diastolic,
                     date: values.date.toISOString(),
                     userID: auth?.userId,
+                    isAjeun: values.isAjeun,
                 },
                 {
                     headers: {
@@ -117,6 +121,7 @@ const HypertensionForm = () => {
                     date: formValues.date,
                     userID: auth?.userId,
                     confirmUpsert: true,
+                    isAjeun: formValues.isAjeun,
                 },
                 {
                     headers: {
@@ -250,6 +255,24 @@ const HypertensionForm = () => {
                                 </FormControl>
                                 <FormDescription>Entrez la valeur de la pression diastolique en mmHg</FormDescription>
                                 <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name='isAjeun'
+                        render={({ field }) => (
+                            <FormItem className='flex flex-col'>
+                                <Label htmlFor='isAjeun' className='flex items-center'>
+                                    <Switch
+                                        checked={field.value}
+                                        onCheckedChange={field.onChange}
+                                        id='isAjeun'
+                                        className='mr-4'
+                                    />
+                                    <span>À jeun</span>
+                                </Label>
                             </FormItem>
                         )}
                     />

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import axios from 'axios';
 import useAuth from '@/hooks/useAuth';
 
@@ -24,8 +24,6 @@ const HypertensionBarChart = () => {
                 };
             });
 
-            console.log("chart", data);
-
             setHypertensionData(data);
         } catch (error) {
             console.error(error);
@@ -39,8 +37,10 @@ const HypertensionBarChart = () => {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Hypertension Mensuelle</CardTitle>
+                <CardTitle>Hypertension</CardTitle>
+                <CardDescription>Tendance de la tension artérielle de cette année</CardDescription>
             </CardHeader>
+            
             <CardContent>
                 <ResponsiveContainer width="100%" height={400}>
                     <BarChart

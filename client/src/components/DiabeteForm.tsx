@@ -24,6 +24,8 @@ import {
 import useAuth from "@/hooks/useAuth";
 import { axiosPrivate } from "@/api/axios";
 import { fr } from "date-fns/locale/fr";
+import { Label } from "./ui/label";
+import { Switch } from "./ui/switch";
 
 const DiabeteFormSchema = z.object({
     glycemie: z.coerce
@@ -35,6 +37,7 @@ const DiabeteFormSchema = z.object({
     date: z.date({
         required_error: "Entrez une date",
     }),
+    isAjeun: z.boolean(),
 });
 
 const DiabeteForm = () => {
@@ -54,6 +57,7 @@ const DiabeteForm = () => {
                     glycemie: values.glycemie,
                     date: values.date.toISOString(),
                     userID: auth?.userId,
+                    isAjeun: values.isAjeun,
                 },
                 {
                     headers: {
@@ -113,6 +117,7 @@ const DiabeteForm = () => {
                     date: formValues.date,
                     userID: auth?.userId,
                     confirmUpsert: true,
+                    isAjeun: formValues.isAjeun,
                 },
                 {
                     headers: {
@@ -234,6 +239,24 @@ const DiabeteForm = () => {
                                 </FormControl>
                                 <FormDescription>Entrez votre taux de glycemie</FormDescription>
                                 <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name='isAjeun'
+                        render={({ field }) => (
+                            <FormItem className='flex flex-col'>
+                                <Label htmlFor='isAjeun' className='flex items-center'>
+                                    <Switch
+                                        checked={field.value}
+                                        onCheckedChange={field.onChange}
+                                        id='isAjeun'
+                                        className='mr-4'
+                                    />
+                                    <span>À jeun</span>
+                                </Label>
                             </FormItem>
                         )}
                     />

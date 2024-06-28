@@ -26,7 +26,7 @@ const generateReminders = (remindersData) => {
             const endTime = moment(startTime).add(1, 'hour');
 
             reminders.push({
-                title: `Enseigner le taux de ${item.maladie}`,
+                title: `Enregistrer le taux de ${item.maladie}`,
                 start: startTime.toDate(),
                 end: endTime.toDate(),
                 colorEvento: item.maladie === 'Diabete' ? '#FF5733' : '#3366CC'
@@ -45,6 +45,7 @@ const ReminderCalendar = () => {
     const [showDialog, setShowDialog] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [showEditDialog, setShowEditDialog] = useState(false);
+    const [editMode, setEditMode] = useState('add');
     const { auth } = useAuth();
 
     const handleEventClick = (event) => {
@@ -57,6 +58,12 @@ const ReminderCalendar = () => {
     };
 
     const handleEditClick = () => {
+        setEditMode('edit');
+        setShowEditDialog(true);
+    };
+
+    const handleAddClick = () => {
+        setEditMode('add');
         setShowEditDialog(true);
     };
 
@@ -67,7 +74,6 @@ const ReminderCalendar = () => {
                 "Content-Type": "application/json"},
             });
             
-            console.log(response.data)
             const reminders = generateReminders(response.data);
             
             setReminder(reminders);
@@ -105,7 +111,10 @@ const ReminderCalendar = () => {
                 toolbar={true}
             />
 
-            <Button onClick={handleEditClick}>Modifier les rappels</Button>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px' }}>
+                <Button onClick={handleEditClick}>Modifier un rappel</Button>
+                <Button onClick={handleAddClick}>Ajouter un rappel</Button>
+            </div>
 
             {showDialog && selectedEvent && (
                 <Dialog open={showDialog}>
@@ -123,7 +132,11 @@ const ReminderCalendar = () => {
                 </Dialog>
             )}
 
-            {showEditDialog && <EditReminderDialog onClose={() => setShowEditDialog(false)} onUpdate={fetchUserReminders} />}
+            {showEditDialog && <EditReminderDialog
+                mode={editMode}
+                initialValues={editMode === 'edit' ? selectedEvent : null}
+                onClose={() => setShowEditDialog(false)}
+                onUpdate={fetchUserReminders} />}
         </div>
     );
 };
