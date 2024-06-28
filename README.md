@@ -18,7 +18,7 @@ POSTGRES_HOST=
 POSTGRES_PORT=
 JWT_SECRET=
 JWT_REFRESH_SECRET=
-DATABASE_URL="postgresql://postgres:root@localhost:5432/hackathon2024?serverVersion=15&charset=utf8"
+DATABASE_URL="postgresql://postgres:root@localhost:5432/app?serverVersion=15&charset=utf8"
 NODE_ENV=development
 PHONE=+33
 ```
