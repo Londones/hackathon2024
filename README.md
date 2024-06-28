@@ -18,7 +18,7 @@ POSTGRES_HOST=
 POSTGRES_PORT=
 JWT_SECRET=
 JWT_REFRESH_SECRET=
-DATABASE_URL="postgresql://postgres:root@localhost:5432/app?serverVersion=15&charset=utf8"
+DATABASE_URL=
 NODE_ENV=development
 PHONE=+33
 ```
@@ -26,7 +26,7 @@ PHONE=+33
 Du client
 
 ```bash
-VITE_SERVER_URL=http://localhost:3000
+VITE_SERVER_URL=
 ```
 
 ## Configuration de la base de données
@@ -38,7 +38,7 @@ Créer les tables avec
 
 ```npm run synctables```
 
-Jouer la migration avec 
+Jouer les migrations avec 
 
 ```npx sequelize-cli db:migrate```
 
@@ -54,6 +54,9 @@ Sur le client lancer
 
 # Fonctionalités principales
 
+- Général :
+    - Boilerplate/squelette front (design system, composants de base) et back (base de données, models, controllers, routes de login/register, fixtures de base) du projet : BAH Awa
+
 - Tableau de bord utilisateur :
 
     - Graphique de la Diabète (front + back) : TRAN DIEP Mai Thi
@@ -62,6 +65,7 @@ Sur le client lancer
     - Carte de l'alerte de la Hypertension (front + back récupération) : TRAN DIEP Mai Thi
     - Calendrier des rappels (front + back) : TRAN DIEP Mai Thi
     - Ajouter / Modifier un rappel (front + back) : TRAN DIEP Mai Thi
+    - Ajout/modification des taux directement depuis l'interface web (front + back) : BAH Awa
 
 - AI SMS ..
     - Set up IA (Mistral) + API Envoie/Réception SMS : Alicia SACI
@@ -75,7 +79,9 @@ Sur le client lancer
     - création des alertes et avertissements pour le tension arterielle : Walid IDIR
     - Envoi de question medicales diverses à l'IA (comme interférences des médicament, espacement de ceux-ci) + réponse de l'IA. : Walid IDIR
     - Traitement des messages potentiels avec des Regex complexes (cas de faute ou autre par l'utilisateur) : Walid IDIR
-- 
+    - Integration du setup de l'API d'envoi/reception des SMS pour sauvegarder les taux envoyés, dans la base de donnée : BAH Awa
+    - Envoi des rappels des differentes maladies par SMS selon la fréquence et l'heure renseignée par l'utilisateur : BAH Awa
+    - Cron-jobs pour l'analyse des utilisateurs à rappeler et l'analyse des SMS reçus : BAH Awa
     
 
 
