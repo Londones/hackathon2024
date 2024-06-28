@@ -16,10 +16,17 @@ const generateReminders = (remindersData) => {
         let currentDate = moment(startDate);
 
         while (currentDate.isSameOrBefore(endDate)) {
+            const startTime = moment(currentDate).set({
+                hour: moment(item.heure, 'HH:mm:ss').get('hour'),
+                minute: moment(item.heure, 'HH:mm:ss').get('minute'),
+                second: moment(item.heure, 'HH:mm:ss').get('second')
+            });
+            const endTime = moment(startTime).add(1, 'hour');
+
             reminders.push({
                 title: `Enseigner le taux de ${item.maladie}`,
-                start: currentDate.toDate(),
-                end: currentDate.toDate(),
+                start: startTime.toDate(),
+                end: endTime.toDate(),
                 colorEvento: item.maladie === 'Diabete' ? '#FF5733' : '#3366CC'
             });
 
@@ -52,8 +59,10 @@ const ReminderCalendar = () => {
                 headers: { Authorization: `Bearer ${auth.accessToken}`,
                 "Content-Type": "application/json"},
             });
-    
+            
+            console.log(response.data)
             const reminders = generateReminders(response.data);
+            
             setReminder(reminders);
         } catch (error) {
             console.error(error);
@@ -85,6 +94,8 @@ const ReminderCalendar = () => {
                     };
                 }}
                 onSelectEvent={handleEventClick}
+                views={['month', 'week', 'day']}
+                toolbar={true}
             />
 
             {showDialog && selectedEvent && (
@@ -95,7 +106,6 @@ const ReminderCalendar = () => {
                     <DialogContent>
                         <DialogHeader>
                             <DialogTitle>{selectedEvent.title}</DialogTitle>
-                            <p>Heure : à {moment(selectedEvent.start).format('HH:mm')}</p>
                         </DialogHeader>
                         <DialogFooter>
                             <button onClick={handleCloseDialog}>Fermer</button>
