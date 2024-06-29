@@ -3,6 +3,7 @@
   @tailwind utilities;
 
   @layer base {
+    /* Couleur de base */
     :root {
       --background: 0 0% 100%;
       --foreground: 222.2 84% 4.9%;
@@ -64,6 +65,54 @@
       --input: 217.2 32.6% 17.5%;
       --ring: 212.7 26.8% 83.9%;
     }
+
+/* Couleur Calmedica    
+:root  {
+  --background: 15 19% 100%;
+  --foreground: 15 5% 10%;
+  --card: 15 19% 100%;
+  --card-foreground: 15 5% 15%;
+  --popover: 15 19% 100%;
+  --popover-foreground: 15 95% 10%;
+  --primary: 15 96.7% 53.1%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 15 19% 90%;
+  --secondary-foreground: 0 0% 0%;
+  --muted: -23 19% 95%;
+  --muted-foreground: 15 5% 40%;
+  --accent: -23 19% 90%;
+  --accent-foreground: 15 5% 15%;
+  --destructive: 0 50% 50%;
+  --destructive-foreground: 15 5% 100%;
+  --border: 15 20% 82%;
+  --input: 15 20% 50%;
+  --ring: 15 96.7% 53.1%;
+  --radius: 0.5rem;
+}
+.dark  {
+  --background: 15 19% 10%;
+  --foreground: 15 5% 100%;
+  --card: 15 19% 10%;
+  --card-foreground: 15 5% 100%;
+  --popover: 15 19% 5%;
+  --popover-foreground: 15 5% 100%;
+  --primary: 15 96.7% 53.1%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 15 19% 20%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: -23 19% 25%;
+  --muted-foreground: 15 5% 65%;
+  --accent: -23 19% 25%;
+  --accent-foreground: 15 5% 95%;
+  --destructive: 0 50% 50%;
+  --destructive-foreground: 15 5% 100%;
+  --border: 15 20% 50%;
+  --input: 15 20% 50%;
+  --ring: 15 96.7% 53.1%;
+  --radius: 0.5rem;
+}
+    */
+
   }
 
   @layer base {
